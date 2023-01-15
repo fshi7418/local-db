@@ -14,12 +14,12 @@ class ExpenseSource(Enum):
     DEPOSIT = 'Deposit'
     RBCD = 'RBC Chequing'
     BMOD = 'BMO Chequing'
-    RBCC0397 = 'RBC Credit(0397)'
+    RBCCO = 'RBC Credit(0397)'
     CMB = 'CMB(9076)'
-    RBCC0148 = 'RBC Credit(0148)'
+    RBCC = 'RBC Credit(0148)'
     PCF = 'PC Financial(2800)'
     OTHER = 'Other'
-    BMOC2527 = 'BMO Credit(2527)'
+    BMOC = 'BMO Credit(2527)'
 
 
 
