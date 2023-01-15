@@ -20,6 +20,3 @@ class ExpenseSource(Enum):
     PCF = 'PC Financial(2800)'
     OTHER = 'Other'
     BMOC = 'BMO Credit(2527)'
-
-
-
