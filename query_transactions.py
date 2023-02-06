@@ -27,7 +27,7 @@ def query_first_n(n):
     ).limit(n).all()
     date_col_width = 10
     amount_col_width = 10
-    category_col_width = 20
+    category_col_width = 25
     source_col_width = 20
     comment_col_width = 50
     print('-' * (date_col_width + amount_col_width + category_col_width + source_col_width + comment_col_width + 4))
