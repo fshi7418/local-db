@@ -47,4 +47,3 @@ def add_expense(e_date, e_amount, e_category_str, e_source_str, e_comment):
 if __name__ == '__main__':
     cmd_args = sys.argv
     add_expense(cmd_args[1], cmd_args[2], cmd_args[3], cmd_args[4], cmd_args[5])
-
