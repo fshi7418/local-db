@@ -25,16 +25,17 @@ def query_first_n(n):
     ).order_by(
         ExpenseTransactions.transaction_date.desc()
     ).limit(n).all()
+    id_col_width = 8
     date_col_width = 10
     amount_col_width = 10
     category_col_width = 25
     source_col_width = 20
     comment_col_width = 50
-    print('-' * (date_col_width + amount_col_width + category_col_width + source_col_width + comment_col_width + 4))
-    print('|'.join(['Date'.ljust(date_col_width), 'Amount'.ljust(amount_col_width), 'Category'.ljust(category_col_width), 'Source'.ljust(source_col_width), 'Comment'.ljust(comment_col_width)]))
-    print('-' * (date_col_width + amount_col_width + category_col_width + source_col_width + comment_col_width + 4))
+    print('-' * (id_col_width + date_col_width + amount_col_width + category_col_width + source_col_width + comment_col_width + 4))
+    print('|'.join(['ID'.ljust(id_col_width), 'Date'.ljust(date_col_width), 'Amount'.ljust(amount_col_width), 'Category'.ljust(category_col_width), 'Source'.ljust(source_col_width), 'Comment'.ljust(comment_col_width)]))
+    print('-' * (id_col_width + date_col_width + amount_col_width + category_col_width + source_col_width + comment_col_width + 4))
     for d in first_n:
-        d_row = [d.transaction_date.strftime('%Y-%m-%d'), str(d.amount).ljust(amount_col_width), str(d.category).ljust(category_col_width), d.expense_source.ljust(source_col_width), d.expense_comment]
+        d_row = [str(d.id).ljust(id_col_width), d.transaction_date.strftime('%Y-%m-%d'), str(d.amount).ljust(amount_col_width), str(d.category).ljust(category_col_width), d.expense_source.ljust(source_col_width), d.expense_comment]
         print('|'.join(d_row))
     postgres_session.close()
 
