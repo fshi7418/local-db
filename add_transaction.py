@@ -1,8 +1,5 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
-import pandas as pd
-import os
 import sys
 
 from expense_transactions import ExpenseTransactions
@@ -19,13 +16,13 @@ def add_expense(e_date, e_amount, e_category_str, e_source_str, e_comment):
     
     try:
         category_obj = getattr(ExpenseCat, e_category_str)
-    except:
+    except AttributeError:
         print(f'{e_category_str} is not recognised, please try again')
         return
 
     try:
         source_obj = getattr(ExpenseSource, e_source_str)
-    except:
+    except AttributeError:
         print(f'{e_source_str} is not recognised, please try again')
         return
 
