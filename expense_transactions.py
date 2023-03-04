@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Date, Float, String, create_engine
+from sqlalchemy import Column, Integer, Date, Float, String
 from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
@@ -15,5 +15,3 @@ class ExpenseTransactions(Base):
     expense_source = Column(String)
     expense_comment = Column(String)
     last_updated = Column(TIMESTAMP(timezone=True), default=func.now())
-
-
