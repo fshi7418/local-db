@@ -5,12 +5,13 @@ from sqlalchemy.orm import sessionmaker
 
 with open('configs.json', 'rb') as config_file:
     configs = json.load(config_file)
-local_postgres = configs.get('postgres', dict())
+local_postgres = configs.get('database', dict()).get('postgres', dict())
 username = local_postgres.get('username', '')
 password = local_postgres.get('password', '')
 
 Base = declarative_base()
-conn_string = 'postgresql://{username}:{password}@localhost/postgres'
+conn_string = f'postgresql://{username}:{password}@localhost/postgres'
+print(conn_string)
 engine = create_engine(conn_string)
 Session = sessionmaker(bind=engine)
 

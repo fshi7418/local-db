@@ -8,7 +8,14 @@ from models import Base
 class Rounds(Base):
     __tablename__ = 'rounds'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    round_date = Column(Date, nullable=False)
+    round_date = Column(Date, nullable=False, index=True)
+    distance_m = Column(Integer, nullable=False, index=True)
+    target_size_cm = Column(Integer, nullable=False)
+    sight = Column(Boolean, nullable=False)
+    clicker = Column(Boolean, nullable=False)
+    stabliser = Column(Boolean, nullable=False)
+    bow = Column(String, nullable=False, index=True)
+    arrow_stiffness = Column(Integer)
     bow_weight_lb = Column(Integer, nullable=False, index=True)
     bow_length_in = Column(Integer, nullable=False)
     total_score = Column(Integer, nullable=False, index=True)
@@ -38,8 +45,8 @@ class Ends(Base):
     num_shots = Column(Integer, nullable=False)
     shots_ordered = Column(Boolean, nullable=False)
 
-    round = relationship(Rounds, foreign_keys=rounds_id)
-    shots = relationship('shots', back_populates='end', cascade='all, delete-orphan', lazy='joined')
+    round = relationship(Rounds, foreign_keys=rounds_id, back_populates='ends', cascade='all')
+    shots = relationship('Shots', back_populates='end', cascade='all, delete-orphan', lazy='joined')
 
 
 class Shots(Base):
@@ -52,4 +59,4 @@ class Shots(Base):
     score = Column(Integer, nullable=False)
     is_x = Column(Boolean)
 
-    end = relationship(Ends, foreign_keys=ends_id)
+    end = relationship(Ends, foreign_keys=ends_id, back_populates='shots', cascade='all')

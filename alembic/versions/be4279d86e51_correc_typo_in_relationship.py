@@ -1,8 +1,8 @@
-"""first revision
+"""correc typo in relationship
 
-Revision ID: 0534804e02c4
+Revision ID: be4279d86e51
 Revises: 
-Create Date: 2023-11-10 21:24:59.135194
+Create Date: 2023-11-10 22:43:25.154235
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = '0534804e02c4'
+revision: str = 'be4279d86e51'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None

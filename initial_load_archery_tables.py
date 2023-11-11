@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from sqlalchemy import null
 
 from models import postgres_session
 from models.archery_scores import Rounds, Ends, Shots
@@ -21,8 +22,11 @@ for r, r_dict in rounds.iterrows():
         rr_shots_df = shots.loc[shots['ends_id'] == rr_id]
         rr_shots = []
         for rrr, rrr_dict in rr_shots_df.iterrows():
+            rrr_dict_actual = dict(rrr_dict)
+            if pd.isna(rrr_dict_actual['is_x']):
+                rrr_dict_actual['is_x'] = None
             rr_shots.append(Shots(
-                **(dict(rrr_dict))
+                **rrr_dict_actual
             ))
         r_ends.append(Ends(
             id=rr_dict['id'],
@@ -35,14 +39,14 @@ for r, r_dict in rounds.iterrows():
         ))
     postgres_session.add(Rounds(
         id=r_id,
-        date=r_dict['date'],
+        round_date=r_dict['date'].date(),
         distance_m=r_dict['distance_m'],
         target_size_cm=r_dict['target_size_cm'],
         sight=r_dict['sight'],
         clicker=r_dict['clicker'],
         stabliser=r_dict['stabliser'],
         bow=r_dict['bow'],
-        arrow_stiffness=r_dict['arrow_stiffness'],
+        arrow_stiffness=null() if pd.isna(r_dict['arrow_stiffness']) else r_dict['arrow_stiffness'],
         bow_weight_lb=r_dict['bow_weight_lb'],
         bow_length_in=r_dict['bow_length_in'],
         total_score=r_dict['total_score'],
