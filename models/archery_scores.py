@@ -7,7 +7,7 @@ from models import Base
 
 class Rounds(Base):
     __tablename__ = 'rounds'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     round_date = Column(Date, nullable=False)
     bow_weight_lb = Column(Integer, nullable=False, index=True)
     bow_length_in = Column(Integer, nullable=False)
@@ -29,27 +29,27 @@ class Rounds(Base):
 
 class Ends(Base):
     __tablename__ = 'ends'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     rounds_id = Column(
-        Integer, ForeignKey('rounds.id'), onupdate='CASCADE', ondelete='CASCADE', nullable=False, index=True
+        Integer, ForeignKey('rounds.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False, index=True
     )
     end = Column(Integer, nullable=False)
     score_total = Column(Integer, nullable=False)
     num_shots = Column(Integer, nullable=False)
     shots_ordered = Column(Boolean, nullable=False)
 
-    round = relationship(Rounds, foreignkeys=rounds_id)
+    round = relationship(Rounds, foreign_keys=rounds_id)
     shots = relationship('shots', back_populates='end', cascade='all, delete-orphan', lazy='joined')
 
 
 class Shots(Base):
     __tablename__ = 'shots'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     ends_id = Column(
-        Integer, ForeignKey('ends.id'), onupdate='CASCADE', ondelete='CASCADE', nullable=False
+        Integer, ForeignKey('ends.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False
     )
     shot = Column(Integer, nullable=False)
     score = Column(Integer, nullable=False)
     is_x = Column(Boolean)
 
-    end = relationship(Ends, foreignkeys=ends_id)
+    end = relationship(Ends, foreign_keys=ends_id)
