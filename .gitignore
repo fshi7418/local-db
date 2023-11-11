@@ -4,3 +4,6 @@ configs.json
 # pycharm specific
 .idea/
 __pycache__/
+
+# alembic ini
+alembic.ini
