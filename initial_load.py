@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 import pandas as pd
 import os
 
-from expense_transactions import ExpenseTransactions
+from models.transactions import ExpenseTransactions
 
 doc_path = r'/home/franks/Documents'
 expense_csv = os.path.join(doc_path, 'expenses.csv')

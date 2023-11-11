@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import sys
 
-from expense_transactions import ExpenseTransactions
+from models.transactions import ExpenseTransactions
 
 conn_string = 'postgresql://postgres:utS2022!@localhost/postgres'
 engine = create_engine(conn_string)

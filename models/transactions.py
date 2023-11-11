@@ -1,9 +1,8 @@
 from sqlalchemy import Column, Integer, Date, Float, String
 from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import TIMESTAMP
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+from models import Base
 
 
 class ExpenseTransactions(Base):
