@@ -1,0 +1,6 @@
+# configs containing username and password
+configs.json
+
+# pycharm specific
+.idea/
+__pycache__/
