@@ -1,14 +1,7 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 import sys
 
+from models import postgres_session
 from models.transactions import ExpenseTransactions
-
-conn_string = 'postgresql://postgres:utS2022!@localhost/postgres'
-engine = create_engine(conn_string)
-Session = sessionmaker(bind=engine)
-
-postgres_session = Session()
 
 
 def query_first_n(n):

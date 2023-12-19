@@ -11,7 +11,6 @@ password = local_postgres.get('password', '')
 
 Base = declarative_base()
 conn_string = f'postgresql://{username}:{password}@localhost/postgres'
-print(conn_string)
 engine = create_engine(conn_string)
 Session = sessionmaker(bind=engine)
 
