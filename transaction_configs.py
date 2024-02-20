@@ -11,12 +11,13 @@ class ExpenseCat(Enum):
 
 
 class ExpenseSource(Enum):
-    DEPOSIT = 'Deposit'
-    RBCD = 'RBC Chequing'
-    BMOD = 'BMO Chequing'
-    RBCCO = 'RBC Credit(0397)'
+    AMEX = 'AMEX(1006)'
+    BMOC = 'BMO Credit(1056)'
+    BMOD = 'BMO Chequing(7334)'
     CMB = 'CMB(9076)'
-    RBCC = 'RBC Credit(0148)'
-    PCF = 'PC Financial(2800)'
     OTHER = 'Other'
-    BMOC = 'BMO Credit(2527)'
+    PCF = 'PC Financial(2800)'
+    RBCD = 'RBC Chequing(8545)'
+    RBCCO = 'RBC Credit(4682)'
+    RBCC = 'RBC Credit(2262)'
+    TDD = 'TD Chequing(5232)'
