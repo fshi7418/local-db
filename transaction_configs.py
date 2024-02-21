@@ -20,4 +20,5 @@ class ExpenseSource(Enum):
     RBCD = 'RBC Chequing(8545)'
     RBCCO = 'RBC Credit(4682)'
     RBCC = 'RBC Credit(2262)'
+    TDC = 'TD Credit(8988)'
     TDD = 'TD Chequing(5232)'
