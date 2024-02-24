@@ -14,6 +14,8 @@ class ExpenseSource(Enum):
     AMEX = 'AMEX(1006)'
     BMOC = 'BMO Credit(1056)'
     BMOD = 'BMO Chequing(7334)'
+    CIBCC = 'CIBC Credit(8807)'
+    CIBCD = 'CIBC Chequing(9833)'
     CMB = 'CMB(9076)'
     OTHER = 'Other'
     PCF = 'PC Financial(2800)'
