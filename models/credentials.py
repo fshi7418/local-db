@@ -14,6 +14,7 @@ class Credentials(Base):
     category = Column(String)  # one of: web, credit_card, id, email, bank
     importance = Column(Integer, index=True)
     extra_info = Column(JSONB)
+    notes = Column(String)
     last_updated = Column(
         TIMESTAMP(timezone=True), default=func.now(), onupdate=func.now(), server_default=func.now(),
         server_onupdate=func.now()
