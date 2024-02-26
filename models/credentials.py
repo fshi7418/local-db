@@ -11,8 +11,9 @@ class Credentials(Base):
     login = Column(String)
     password = Column(String)
     website = Column(String)
-    category = Column(String)  # one of: web, credit_card, id, email, bank
+    category = Column(String)  # one of: web, credit_card, id, email, bank, other
     importance = Column(Integer, index=True)
+    # 1: critical; 2: has monetary value; 3: annoying if lost; 4: does not matter if lost
     extra_info = Column(JSONB)
     notes = Column(String)
     last_updated = Column(
