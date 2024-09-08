@@ -8,7 +8,7 @@ from models import Base
 
 class Library(Base):
     __tablename__ = 'library'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     title_main = Column(String)
     title_secondary = Column(String)
     author = Column(String)
@@ -45,7 +45,7 @@ class Library(Base):
 
 class Author(Base):
     __tablename__ = 'author'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
     last_name = Column(String)
     first_name = Column(String)
@@ -60,7 +60,7 @@ class Author(Base):
 
 class Language(Base):
     __tablename__ = 'language'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     language = Column(String, nullable=False)
     datetime_entered = Column(
         DateTime, default=func.now(), server_default=func.now()
@@ -73,7 +73,7 @@ class Language(Base):
 
 class Publisher(Base):
     __tablename__ = 'publisher'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
     country = Column(String)
     city = Column(String)
@@ -88,5 +88,5 @@ class Publisher(Base):
 
 class Binding(Base):
     __tablename__ = 'binding'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String, nullable=False)
