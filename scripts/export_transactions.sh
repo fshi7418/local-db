@@ -2,7 +2,7 @@
 # shellcheck source=/dev/null
 source ~/Environments/personal1/bin/activate
 current_dir=$(pwd)
-cd ~/Repos/local-db
+cd ~/Repos/local-db || exit
 read -r -p "Year of start date? " year_start
 read -r -p "Month of start date? " month_start
 read -r -p "Is there an end year and end month (y/n)? " end_date
