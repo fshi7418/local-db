@@ -43,6 +43,49 @@ class Library(Base):
     )
 
 
+class Author(Base):
+    __tablename__ = 'author'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    last_name = Column(String)
+    first_name = Column(String)
+    datetime_entered = Column(
+        DateTime, default=func.now(), server_default=func.now()
+    )
+    last_updated = Column(
+        DateTime, default=func.now(), onupdate=func.now(), server_default=func.now(),
+        server_onupdate=func.now()
+    )
+
+
+class Language(Base):
+    __tablename__ = 'language'
+    id = Column(Integer, primary_key=True)
+    language = Column(String, nullable=False)
+    datetime_entered = Column(
+        DateTime, default=func.now(), server_default=func.now()
+    )
+    last_updated = Column(
+        DateTime, default=func.now(), onupdate=func.now(), server_default=func.now(),
+        server_onupdate=func.now()
+    )
+
+
+class Publisher(Base):
+    __tablename__ = 'publisher'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    country = Column(String)
+    city = Column(String)
+    datetime_entered = Column(
+        DateTime, default=func.now(), server_default=func.now()
+    )
+    last_updated = Column(
+        DateTime, default=func.now(), onupdate=func.now(), server_default=func.now(),
+        server_onupdate=func.now()
+    )
+
+
 class Binding(Base):
     __tablename__ = 'binding'
     id = Column(Integer, primary_key=True)
