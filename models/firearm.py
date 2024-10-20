@@ -55,19 +55,19 @@ class FirearmModel(Base):
     rear_sight = Column(Boolean)
     front_sight = Column(Boolean)
     firearm_restriction_id = Column(Integer, ForeignKey('firearm_restriction.id'), nullable=False)
-    cartridge_id1 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=False)
+    firearm_cartridge_id1 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=False)
     capacity1 = Column(Integer)
-    cartridge_id2 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
+    firearm_cartridge_id2 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
     capacity2 = Column(Integer)
-    cartridge_id3 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
+    firearm_cartridge_id3 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
     capacity3 = Column(Integer)
-    cartridge_id4 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
+    firearm_cartridge_id4 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
     capacity4 = Column(Integer)
-    cartridge_id5 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
+    firearm_cartridge_id5 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
     capacity5 = Column(Integer)
-    cartridge_id6 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
+    firearm_cartridge_id6 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
     capacity6 = Column(Integer)
-    cartridge_id7 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
+    firearm_cartridge_id7 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
     capacity7 = Column(Integer)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
@@ -146,6 +146,7 @@ class FirearmTarget(Base):
 class FirearmVisit(Base):
     __tablename__ = 'firearm_visit'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    visit_date = Column(Date, index=True, nullable=False)
     firearm_range_id = Column(Integer, ForeignKey('firearm_range.id'), nullable=True)
     time_start = Column(String(4))
     time_end = Column(String(4))
@@ -163,12 +164,12 @@ class FirearmEnd(Base):
     )
     firearm_model_id = Column(Integer, ForeignKey('firearm_model.id'), nullable=True)
     firearm_cartridge_id = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
-    quantity = Column(Integer, nullable=False)
-    distance_m = Column(Float, nullable=False)
+    quantity = Column(Integer)
+    distance_m = Column(Float)
     firearm_target_id = Column(Integer, ForeignKey('firearm_target.id'), nullable=True)
     shots_scored = Column(Integer)
 
-    firearm_visit = relationship(FirearmVisit, foreign_keys=firearm_visit_id, back_populates='ends', cascade='all')
+    firearm_visit = relationship(FirearmVisit, foreign_keys=firearm_visit_id, back_populates='firearm_ends', cascade='all')
     firearm_shots = relationship('FirearmShot', back_populates='firearm_end', cascade='all, delete-orphan', lazy='select')
 
 
@@ -183,4 +184,4 @@ class FirearmShot(Base):
     is_x = Column(Boolean)
     num_shots = Column(Integer, nullable=False)
 
-    firearm_end = relationship(FirearmEnd, foreign_keys=firearm_end_id, back_populates='ends', cascade='all')
+    firearm_end = relationship(FirearmEnd, foreign_keys=firearm_end_id, back_populates='firearm_shots', cascade='all')
