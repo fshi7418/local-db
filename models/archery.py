@@ -32,8 +32,8 @@ class Rounds(Base):
     condition_env = Column(Integer, nullable=True)
     hunger = Column(Boolean, nullable=True)
     days_since_last_practice = Column(Integer, nullable=True)
-    start_time = Column(Integer, nullable=True)
-    end_time = Column(Integer, nullable=True)
+    start_time = Column(String(4), nullable=True)
+    end_time = Column(String(4), nullable=True)
     remark = Column(String)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 

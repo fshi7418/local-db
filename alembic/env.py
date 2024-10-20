@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from models import Base, transactions, archery_scores, credentials, books
+from models import Base, transactions, archery, credentials, books, firearm
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
