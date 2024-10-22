@@ -26,6 +26,7 @@ class Rounds(Base):
     num_9 = Column(Integer, nullable=False)
     stdev_ends = Column(Float, nullable=True)
     stdev_shots = Column(Float, nullable=True)
+    avg_shots = Column(Float, nullable=True)
     num_ends = Column(Integer, nullable=False)
     num_shots = Column(Integer, nullable=False)
     condition_mental = Column(Integer, nullable=True)
