@@ -196,34 +196,42 @@ done
 # Step 3: Ask for user input in n rows of m inputs
 echo "Please enter rows of inputs. Each row should contain integers or 'x'."
 echo "Separate inputs with spaces. Press Enter after each row."
-echo "Type 'done' when you are finished."
+echo "If you are entering the last end, press enter, type 'done', then press enter again"
 
-# Initialize an empty variable to store the input
-input=""
+# Initialize an empty array to store the rows
+rows=()
 
-# Ask for user input
-echo "Please enter your input (type 'done' when finished):"
-
+# Read input row by row
 while true; do
-    # Read a line of input
-    read -r line
+    # Prompt the user for input
+    read -p "end scores separated by space:" row
 
-    # Check if the user wants to finish input
-    if [[ "$line" == "done" ]]; then
+    # If the user presses Enter without input, break the loop
+    if [[ "$row" = "done" ]]; then
         break
     fi
 
-    # Append the line to the input variable
-    input+="$line"$'\n'
+    # Process each element in the row
+    formatted_row=""
+    for element in $row; do
+        # If the element is 'x' or 'X', treat it as a string and add quotes
+        if [[ "$element" == "x" || "$element" == "X" ]]; then
+            formatted_row+="'$element', "
+        else
+            # Otherwise, assume it's an integer and add it as is
+            formatted_row+="$element, "
+        fi
+    done
+
+    # Remove the trailing comma and space
+    formatted_row=${formatted_row%, }
+
+    # Append the formatted row to the rows array
+    rows+=("[$formatted_row]")
 done
 
-# Remove the trailing newline character
-input="${input%$'\n'}"
+# Join the rows into a single string representing a list of lists
+input_string=$(IFS=,; echo "[${rows[*]}]")
 
-# Format the input for Python
-formatted_input=$(echo "$input" | sed 's/^/[/; s/$/]/; s/\n/, /g; s/], /],/g; s/, ]/]/g')
-
-echo $formatted_input
-
-# Call the Python script with the formatted input
-# python3 your_script.py "$formatted_input"
+# Pass the input string to the Python script
+python3 add_archery_round.py "$input_string"
