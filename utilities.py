@@ -22,6 +22,33 @@ str_to_model = {
 }
 
 
+def execute_any_q_text(db_engine, q_stmt):
+    """
+    Executes a SQL query and returns the results.
+
+    :param db_engine: Path to the SQLite database file.
+    :param q_stmt: SQL query string.
+    :return: List of tuples containing the results.
+    """
+    # Connect to the database
+    connection = db_engine.raw_connection()
+    cursor = connection.cursor()
+    results = []
+    try:
+        # Execute the query
+        cursor.execute(q_stmt)
+        # Fetch all results
+        results = cursor.fetchall()
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        # Close the cursor and connection
+        cursor.close()
+        connection.close()
+        return results
+
+
 def display_table_rows(model_, rows):
     if not rows:
         print("No records found.")
@@ -85,3 +112,6 @@ if __name__ == '__main__':
         display_and_return_table_rows(model, postgres_session)
     else:
         raise NotImplementedError(f'{cmd_type} is not implemented')
+
+    # r = execute_any_q_text(postgres_session.bind, 'select max(date) from archery_round')
+    # print(r)

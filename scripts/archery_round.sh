@@ -23,7 +23,7 @@ function is_valid_integer() {
 
 # Step 1: Ask for today's date in yyyymmdd format
 while true; do
-    read -p "Please enter today's date (yyyymmdd): " todays_date
+    read -p "Please enter round date (yyyymmdd): " todays_date
     if is_valid_date "$todays_date"; then
         break
     else
@@ -234,4 +234,4 @@ done
 input_string=$(IFS=,; echo "[${rows[*]}]")
 
 # Pass the input string to the Python script
-python3 add_archery_round.py "$input_string"
+python3 add_archery_round.py "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$input_string" "$todays_date"
