@@ -1,0 +1,229 @@
+#!/bin/bash
+# shellcheck source=/dev/null
+source ~/Environments/personal1/bin/activate
+cd ~/Repos/local-db || exit
+
+# Function to check if input is a valid date in yyyymmdd format
+function is_valid_date() {
+    if [[ $1 =~ ^[0-9]{8}$ ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Function to check if input is a valid integer
+function is_valid_integer() {
+    if [[ $1 =~ ^[0-9]+$ ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Step 1: Ask for today's date in yyyymmdd format
+while true; do
+    read -p "Please enter today's date (yyyymmdd): " todays_date
+    if is_valid_date "$todays_date"; then
+        break
+    else
+        echo "Invalid date format. Please try again."
+    fi
+done
+
+echo "You entered: $todays_date"
+
+# Step 2: Call the Python function to get data in several archery tables
+
+# Step 2.1: Ask the user for an integer that represents a number in the archery_riser.id column
+python3 utilities.py query archery_riser
+archery_riser_data=$(python3 utilities.py query archery_riser)
+while true; do
+    read -p "Please enter the ID from the 'archery_riser' table: " riser_id
+    if is_valid_integer "$riser_id"; then
+          echo "You selected archery_riser.id: $riser_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Step 2.2: Ask the user for an integer that represents a number in the archery_limb.id column
+python3 utilities.py query archery_limb
+archery_limb_data=$(python3 utilities.py query archery_limb)
+while true; do
+    read -p "Please enter the ID from the 'archery_limb' table: " limb_id
+    if is_valid_integer "$limb_id"; then
+          echo "You selected archery_limb.id: $limb_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Step 2.3: Ask the user for an integer that represents a number in the archery_range.id column
+python3 utilities.py query archery_range
+archery_range_data=$(python3 utilities.py query archery_range)
+while true; do
+    read -p "Please enter the ID from the 'archery_range' table: " range_id
+    if is_valid_integer "$range_id"; then
+          echo "You selected archery_range.id: $range_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Step 2.4: Ask the user for an integer that represents a number in the archery_arrow.id column
+python3 utilities.py query archery_arrow
+archery_arrow_data=$(python3 utilities.py query archery_arrow)
+while true; do
+    read -p "Please enter the ID from the 'archery_arrow' table: " arrow_id
+    if is_valid_integer "$arrow_id"; then
+          echo "You selected archery_arrow.id: $arrow_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Step 2.5: Ask the user for an integer that represents a number in the archery_target.id column
+python3 utilities.py query archery_target
+archery_target_data=$(python3 utilities.py query archery_target)
+while true; do
+    read -p "Please enter the ID from the 'archery_target' table: " target_id
+    if is_valid_integer "$target_id"; then
+          echo "You selected archery_target.id: $target_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Step 2.6: Ask the user for an integer that represents distance in metres
+while true; do
+    read -p "Please enter the distance in metres: " distance_m
+    if is_valid_integer "$distance_m"; then
+          echo "You put distance: $distance_m"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Step 2.7: sight, stabiliser, clicker
+read -r -p "sight (y/n)? " yn
+if [ "$yn" == "y" ]; then
+    sight="True"
+else
+    sight="False"
+fi
+read -r -p "stabliser (y/n)? " yn
+if [ "$yn" == "y" ]; then
+    stabiliser="True"
+else
+    stabiliser="False"
+fi
+read -r -p "clicker (y/n)? " yn
+if [ "$yn" == "y" ]; then
+    clicker="True"
+else
+    clicker="False"
+fi
+echo "sight, stabiliser, clicker: $sight, $stabiliser, $clicker"
+
+# Step 2.8: Ask the user for an integer that represents draw weight in pounds
+while true; do
+    read -p "Please enter draw weight in pounds (lb.): " draw_weight_lb
+    if is_valid_integer "$draw_weight_lb"; then
+          echo "You put draw weight (lb.): $draw_weight_lb"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Step 2.9: Ask the user for environment-related variables
+while true; do
+    read -p "On a scale of 1 (worst) to 10 (ideal), your mental condition was: " env_mental
+    if is_valid_integer "$env_mental"; then
+          echo "You put mental condition: $env_mental"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+while true; do
+    read -p "On a scale of 1 (worst) to 10 (ideal), the range condition was: " env_physical
+    if is_valid_integer "$env_physical"; then
+          echo "You put range condition: $env_physical"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+read -r -p "were you hungry (y/n)? " yn
+if [ "$yn" == "y" ]; then
+    hunger="True"
+else
+    hunger="False"
+fi
+
+# Step 2.10: Ask for start and end time
+while true; do
+    read -p "Please enter a start time in hhmm (or press Enter to skip): " start_hhmm
+
+    # Check if the input is either empty or exactly 4 digits
+    if [[ -z "$start_hhmm" || "$start_hhmm" =~ ^[0-9]{4}$ ]]; then
+        echo "start time: '$start_hhmm'"
+        break
+    else
+        echo "Invalid input. Please enter exactly 4 digits or press Enter to skip."
+    fi
+done
+while true; do
+    read -p "Please enter a end time in hhmm (or press Enter to skip): " end_hhmm
+
+    # Check if the input is either empty or exactly 4 digits
+    if [[ -z "$end_hhmm" || "$end_hhmm" =~ ^[0-9]{4}$ ]]; then
+        echo "end time: '$end_hhmm'"
+        break
+    else
+        echo "Invalid input. Please enter exactly 4 digits or press Enter to skip."
+    fi
+done
+
+# Step 3: Ask for user input in n rows of m inputs
+echo "Please enter rows of inputs. Each row should contain integers or 'x'."
+echo "Separate inputs with spaces. Press Enter after each row."
+echo "Type 'done' when you are finished."
+
+# Initialize an empty variable to store the input
+input=""
+
+# Ask for user input
+echo "Please enter your input (type 'done' when finished):"
+
+while true; do
+    # Read a line of input
+    read -r line
+
+    # Check if the user wants to finish input
+    if [[ "$line" == "done" ]]; then
+        break
+    fi
+
+    # Append the line to the input variable
+    input+="$line"$'\n'
+done
+
+# Remove the trailing newline character
+input="${input%$'\n'}"
+
+# Format the input for Python
+formatted_input=$(echo "$input" | sed 's/^/[/; s/$/]/; s/\n/, /g; s/], /],/g; s/, ]/]/g')
+
+echo $formatted_input
+
+# Call the Python script with the formatted input
+# python3 your_script.py "$formatted_input"
