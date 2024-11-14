@@ -7,3 +7,6 @@ __pycache__/
 
 # alembic ini
 alembic.ini
+
+# local files
+/sql_scripts/
