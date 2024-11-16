@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, String, Boolean, Date, func
+from sqlalchemy import Column, Integer, Float, String, Boolean, Date, func, SmallInteger
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import TIMESTAMP
@@ -169,6 +169,7 @@ class FirearmEnd(Base):
     distance_m = Column(Float)
     firearm_target_id = Column(Integer, ForeignKey('firearm_target.id'), nullable=True)
     shots_scored = Column(Integer)
+    points_of_stabilisation = Column(SmallInteger)
 
     firearm_visit = relationship(FirearmVisit, foreign_keys=firearm_visit_id, back_populates='firearm_ends', cascade='all')
     firearm_shots = relationship('FirearmShot', back_populates='firearm_end', cascade='all, delete-orphan', lazy='select')
