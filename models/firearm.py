@@ -72,6 +72,17 @@ class FirearmModel(Base):
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
 
+class FirearmSight(Base):
+    __tablename__ = 'firearm_sight'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    type = Column(String(90))
+    firearm_manufacturer_id = Column(
+        Integer, ForeignKey('firearm_manufacturer.id'), nullable=True
+    )
+    name = Column(String, nullable=False)
+    max_magnification = Column(Float)
+
+
 class FirearmDealer(Base):
     __tablename__ = 'firearm_dealer'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -170,6 +181,7 @@ class FirearmEnd(Base):
     firearm_target_id = Column(Integer, ForeignKey('firearm_target.id'), nullable=True)
     shots_scored = Column(Integer)
     points_of_stabilisation = Column(SmallInteger)
+    firearm_sight_id = Column(Integer, ForeignKey('firearm_sight.id'), nullable=True)
 
     firearm_visit = relationship(FirearmVisit, foreign_keys=firearm_visit_id, back_populates='firearm_ends', cascade='all')
     firearm_shots = relationship('FirearmShot', back_populates='firearm_end', cascade='all, delete-orphan', lazy='select')
