@@ -5,12 +5,12 @@ from sqlalchemy import null
 from models import postgres_session
 # Import the necessary models
 from models.firearm import FirearmTrade, FirearmManufacturer, FirearmModel, FirearmAction, FirearmRestriction, \
-    FirearmCartridge, FirearmDealer, FirearmVisit, FirearmEnd, FirearmShot, FirearmRange, FirearmTarget
+    FirearmCartridge, FirearmDealer, FirearmVisit, FirearmEnd, FirearmShot, FirearmRange, FirearmTarget, FirearmSight
 
 # Delete data from all imported tables
 tables_to_clear = [
     FirearmVisit, FirearmEnd, FirearmShot, FirearmTrade, FirearmModel, FirearmManufacturer, FirearmAction,
-    FirearmRestriction, FirearmCartridge, FirearmDealer, FirearmRange, FirearmTarget
+    FirearmRestriction, FirearmCartridge, FirearmDealer, FirearmRange, FirearmTarget, FirearmSight
 ]
 
 for table in tables_to_clear:
@@ -28,6 +28,7 @@ firearm_manufacturer = pd.read_excel(
     firearm_ods, sheet_name='manufacturer', dtype={'phone': str, 'postal_code': str}, engine='odf'
 )
 firearm_model = pd.read_excel(firearm_ods, sheet_name='model', engine='odf')
+firearm_sight = pd.read_excel(firearm_ods, sheet_name='sight', engine='odf')
 firearm_action = pd.read_excel(firearm_ods, sheet_name='action', engine='odf')
 firearm_restriction = pd.read_excel(firearm_ods, sheet_name='restriction', engine='odf')
 firearm_cartridge = pd.read_excel(firearm_ods, sheet_name='cartridge', engine='odf')
@@ -76,6 +77,8 @@ postgres_session.commit()
 
 for _, row in firearm_model.iterrows():
     postgres_session.add(FirearmModel(**{k: handle_null(v) for k, v in row.to_dict().items()}))
+for _, row in firearm_sight.iterrows():
+    postgres_session.add(FirearmSight(**{k: handle_null(v) for k, v in row.to_dict().items()}))
 
 postgres_session.commit()
 
