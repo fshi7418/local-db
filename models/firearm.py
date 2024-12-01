@@ -182,6 +182,7 @@ class FirearmEnd(Base):
     shots_scored = Column(Integer)
     points_of_stabilisation = Column(SmallInteger)
     firearm_sight_id = Column(Integer, ForeignKey('firearm_sight.id'), nullable=True)
+    stance = Column(String(30))
 
     firearm_visit = relationship(FirearmVisit, foreign_keys=firearm_visit_id, back_populates='firearm_ends', cascade='all')
     firearm_shots = relationship('FirearmShot', back_populates='firearm_end', cascade='all, delete-orphan', lazy='select')
