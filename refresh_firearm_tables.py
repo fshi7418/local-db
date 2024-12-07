@@ -9,8 +9,8 @@ from models.firearm import FirearmTrade, FirearmManufacturer, FirearmModel, Fire
 
 # Delete data from all imported tables
 tables_to_clear = [
-    FirearmVisit, FirearmEnd, FirearmShot, FirearmTrade, FirearmModel, FirearmManufacturer, FirearmAction,
-    FirearmRestriction, FirearmCartridge, FirearmDealer, FirearmRange, FirearmTarget, FirearmSight
+    FirearmVisit, FirearmEnd, FirearmShot, FirearmTrade, FirearmModel, FirearmSight, FirearmManufacturer, FirearmAction,
+    FirearmRestriction, FirearmCartridge, FirearmDealer, FirearmRange, FirearmTarget,
 ]
 
 for table in tables_to_clear:
