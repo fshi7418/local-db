@@ -104,7 +104,9 @@ class FirearmCartridge(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
     strike_type = Column(String)
-    casing = Column(String)
+    length_in = Column(Float)
+    length_mm = Column(Float)
+    buckshot_type = Column(String)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
 
@@ -116,6 +118,8 @@ class FirearmAmmunition(Base):
     name = Column(String, nullable=False)
     casing = Column(String)
     tip = Column(String)
+    muzzle_velocity_fps = Column(Float)
+    weight_grain = Column(Float)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
 
