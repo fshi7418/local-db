@@ -5,12 +5,13 @@ from sqlalchemy import null
 from models import postgres_session
 # Import the necessary models
 from models.firearm import FirearmTrade, FirearmManufacturer, FirearmModel, FirearmAction, FirearmRestriction, \
-    FirearmCartridge, FirearmDealer, FirearmVisit, FirearmEnd, FirearmShot, FirearmRange, FirearmTarget, FirearmSight
+    FirearmCartridge, FirearmDealer, FirearmVisit, FirearmEnd, FirearmShot, FirearmRange, FirearmTarget, FirearmSight, \
+    FirearmAmmunition
 
 # Delete data from all imported tables
 tables_to_clear = [
-    FirearmVisit, FirearmEnd, FirearmShot, FirearmTrade, FirearmModel, FirearmSight, FirearmManufacturer, FirearmAction,
-    FirearmRestriction, FirearmCartridge, FirearmDealer, FirearmRange, FirearmTarget,
+    FirearmVisit, FirearmEnd, FirearmShot, FirearmTrade, FirearmModel, FirearmSight, FirearmAmmunition,
+    FirearmManufacturer, FirearmAction, FirearmRestriction, FirearmCartridge, FirearmDealer, FirearmRange, FirearmTarget
 ]
 
 for table in tables_to_clear:
@@ -29,6 +30,7 @@ firearm_manufacturer = pd.read_excel(
 )
 firearm_model = pd.read_excel(firearm_ods, sheet_name='model', engine='odf')
 firearm_sight = pd.read_excel(firearm_ods, sheet_name='sight', engine='odf')
+firearm_ammunition = pd.read_excel(firearm_ods, sheet_name='ammunition', engine='odf')
 firearm_action = pd.read_excel(firearm_ods, sheet_name='action', engine='odf')
 firearm_restriction = pd.read_excel(firearm_ods, sheet_name='restriction', engine='odf')
 firearm_cartridge = pd.read_excel(firearm_ods, sheet_name='cartridge', engine='odf')
@@ -79,6 +81,8 @@ for _, row in firearm_model.iterrows():
     postgres_session.add(FirearmModel(**{k: handle_null(v) for k, v in row.to_dict().items()}))
 for _, row in firearm_sight.iterrows():
     postgres_session.add(FirearmSight(**{k: handle_null(v) for k, v in row.to_dict().items()}))
+for _, row in firearm_ammunition.iterrows():
+    postgres_session.add(FirearmAmmunition(**{k: handle_null(v) for k, v in row.to_dict().items()}))
 
 postgres_session.commit()
 

@@ -108,6 +108,17 @@ class FirearmCartridge(Base):
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
 
+class FirearmAmmunition(Base):
+    __tablename__ = 'firearm_ammunition'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    firearm_cartridge_id = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
+    firearm_manufacturer_id = Column(Integer, ForeignKey('firearm_manufacturer.id'), nullable=True)
+    name = Column(String, nullable=False)
+    casing = Column(String)
+    tip = Column(String)
+    datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
+
+
 class FirearmRestriction(Base):
     __tablename__ = 'firearm_restriction'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -180,6 +191,7 @@ class FirearmEnd(Base):
     )
     firearm_model_id = Column(Integer, ForeignKey('firearm_model.id'), nullable=True)
     firearm_cartridge_id = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
+    firearm_ammunition_id = Column(Integer, ForeignKey('firearm_ammunition.id'), nullable=True)
     quantity = Column(Integer)
     distance_m = Column(Float)
     firearm_target_id = Column(Integer, ForeignKey('firearm_target.id'), nullable=True)
