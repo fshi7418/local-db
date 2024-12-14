@@ -70,6 +70,8 @@ class FirearmModel(Base):
     firearm_cartridge_id7 = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
     capacity7 = Column(Integer)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
+    datetime_valid_start = Column(TIMESTAMP(timezone=True), default=func.now())
+    datetime_valid_end = Column(TIMESTAMP(timezone=True), default='2099-12-31 23:59:59')
 
 
 class FirearmSight(Base):
@@ -111,6 +113,8 @@ class FirearmRestriction(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     restriction_type = Column(String, nullable=False)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
+    datetime_valid_start = Column(TIMESTAMP(timezone=True), default=func.now())
+    datetime_valid_end = Column(TIMESTAMP(timezone=True), default='2099-12-31 23:59:59')
 
 
 class FirearmAction(Base):
