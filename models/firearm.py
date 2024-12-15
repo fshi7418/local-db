@@ -120,6 +120,7 @@ class FirearmAmmunition(Base):
     tip = Column(String)
     muzzle_velocity_fps = Column(Float)
     weight_grain = Column(Float)
+    num_pellets = Column(Integer)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
 
