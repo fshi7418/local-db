@@ -108,7 +108,7 @@ class Round:
         )
 
     def get_days_since_last(self, db_session):
-        q_stmt = 'select max(date) from archery_round'
+        q_stmt = f'select max(date) from archery_round where date <= {self.round_date.strftime("%Y-%m-%d")}'
         q_result = utilities.execute_any_q_text(db_session.bind, q_stmt)
         if len(q_result) > 0:
             date_previous = q_result[0][0]

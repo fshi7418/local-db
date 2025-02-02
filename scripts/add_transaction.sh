@@ -15,7 +15,9 @@ read -r -p "Please enter the amount: " e_amount
 read -r -p "Please enter the expense category e.g. FOOD " e_category
 < transaction_configs.py grep '.*=.*[^(# category)]$'
 read -r -p "Please enter the expense source e.g. CMB " e_source
+python3 utilities.py query expense_budget
+read -r -p "Please enter budget id if applicable: " e_budget_id
 read -r -p "Please enter the expense comment: " e_comment
-echo "$expense_date" "$e_amount" "$e_category" "$e_source" "$e_comment"
-python3 add_transaction.py "$expense_date" "$e_amount" "$e_category" "$e_source" "$e_comment"
+echo "$expense_date" "$e_amount" "$e_category" "$e_source" "$e_comment" "$e_budget_id"
+python3 add_transaction.py "$expense_date" "$e_amount" "$e_category" "$e_source" "$e_comment" "$e_budget_id"
 deactivate

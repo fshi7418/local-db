@@ -5,8 +5,8 @@ from models.transactions import ExpenseTransactions
 from transaction_configs import ExpenseCat, ExpenseSource
 
 
-def add_expense(e_date, e_amount, e_category_str, e_source_str, e_comment):
-    
+def add_expense(e_date, e_amount, e_category_str, e_source_str, e_comment, e_budget_id):
+
     try:
         category_obj = getattr(ExpenseCat, e_category_str)
     except AttributeError:
@@ -24,7 +24,8 @@ def add_expense(e_date, e_amount, e_category_str, e_source_str, e_comment):
         amount=e_amount,
         category=category_obj.value,
         expense_source=source_obj.value,
-        expense_comment=e_comment
+        expense_comment=e_comment,
+        expense_budget_id=e_budget_id,
     )
     print('adding record...')
     postgres_session.add(ExpenseTransactions(**new_expense))
@@ -36,4 +37,4 @@ def add_expense(e_date, e_amount, e_category_str, e_source_str, e_comment):
 
 if __name__ == '__main__':
     cmd_args = sys.argv
-    add_expense(cmd_args[1], cmd_args[2], cmd_args[3], cmd_args[4], cmd_args[5])
+    add_expense(cmd_args[1], cmd_args[2], cmd_args[3], cmd_args[4], cmd_args[5], cmd_args[6])

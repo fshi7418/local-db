@@ -7,6 +7,7 @@ from models import postgres_session
 # Import the necessary models
 from models.archery import ArcheryRange, ArcheryTarget, ArcheryBowType, ArcheryManufacturer, ArcheryLimb, \
     ArcheryRiser, ArcheryArrow, Shots, Ends, Rounds
+from models.transactions import ExpenseBudget
 
 str_to_model = {
     'archery_range': ArcheryRange,
@@ -18,7 +19,8 @@ str_to_model = {
     'archery_arrow': ArcheryArrow,
     'shots': Shots,
     'ends': Ends,
-    'rounds': Rounds
+    'rounds': Rounds,
+    'expense_budget': ExpenseBudget
 }
 
 
