@@ -37,7 +37,6 @@ echo "You entered: $todays_date"
 
 # Step 2.1: Ask the user for an integer that represents a number in the archery_riser.id column
 python3 utilities.py query archery_riser
-archery_riser_data=$(python3 utilities.py query archery_riser)
 while true; do
     read -p "Please enter the ID from the 'archery_riser' table: " riser_id
     if is_valid_integer "$riser_id"; then
@@ -50,7 +49,6 @@ done
 
 # Step 2.2: Ask the user for an integer that represents a number in the archery_limb.id column
 python3 utilities.py query archery_limb
-archery_limb_data=$(python3 utilities.py query archery_limb)
 while true; do
     read -p "Please enter the ID from the 'archery_limb' table: " limb_id
     if is_valid_integer "$limb_id"; then
@@ -63,7 +61,6 @@ done
 
 # Step 2.3: Ask the user for an integer that represents a number in the archery_range.id column
 python3 utilities.py query archery_range
-archery_range_data=$(python3 utilities.py query archery_range)
 while true; do
     read -p "Please enter the ID from the 'archery_range' table: " range_id
     if is_valid_integer "$range_id"; then
@@ -76,7 +73,6 @@ done
 
 # Step 2.4: Ask the user for an integer that represents a number in the archery_arrow.id column
 python3 utilities.py query archery_arrow
-archery_arrow_data=$(python3 utilities.py query archery_arrow)
 while true; do
     read -p "Please enter the ID from the 'archery_arrow' table: " arrow_id
     if is_valid_integer "$arrow_id"; then
@@ -89,7 +85,6 @@ done
 
 # Step 2.5: Ask the user for an integer that represents a number in the archery_target.id column
 python3 utilities.py query archery_target
-archery_target_data=$(python3 utilities.py query archery_target)
 while true; do
     read -p "Please enter the ID from the 'archery_target' table: " target_id
     if is_valid_integer "$target_id"; then
