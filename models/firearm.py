@@ -208,6 +208,7 @@ class FirearmEnd(Base):
     firearm_target_id = Column(Integer, ForeignKey('firearm_target.id'), nullable=True)
     shots_scored = Column(Integer)
     points_of_stabilisation = Column(SmallInteger)
+    supporting_hands = Column(SmallInteger)
     firearm_sight_id = Column(Integer, ForeignKey('firearm_sight.id'), nullable=True)
     stance = Column(String(30))
 
