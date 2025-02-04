@@ -19,6 +19,8 @@ def add_expense(e_date, e_amount, e_category_str, e_source_str, e_comment, e_bud
         print(f'{e_source_str} is not recognised, please try again')
         return
 
+    if e_budget_id == '':
+        e_budget_id = None
     new_expense = dict(
         transaction_date=e_date,
         amount=e_amount,
