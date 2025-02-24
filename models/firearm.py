@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, String, Boolean, Date, func, SmallInteger
+from sqlalchemy import Column, Integer, Float, String, Boolean, Date, func, SmallInteger, Text
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import TIMESTAMP
@@ -163,6 +163,7 @@ class FirearmRange(Base):
 class FirearmTarget(Base):
     __tablename__ = 'firearm_target'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    target_name = Column(Text)
     type = Column(String)
     minimum_score = Column(Integer, nullable=False)
     full_size_cm = Column(Float)
