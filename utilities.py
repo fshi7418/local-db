@@ -6,7 +6,7 @@ from sqlalchemy import null
 from models import postgres_session
 # Import the necessary models
 from models.archery import ArcheryRange, ArcheryTarget, ArcheryBowType, ArcheryManufacturer, ArcheryLimb, \
-    ArcheryRiser, ArcheryArrow, Shots, Ends, Rounds
+    ArcheryRiser, ArcheryArrow, Shots, Ends, Rounds, ArcherySight
 from models.transactions import ExpenseBudget
 
 str_to_model = {
@@ -17,6 +17,7 @@ str_to_model = {
     'archery_limb': ArcheryLimb,
     'archery_riser': ArcheryRiser,
     'archery_arrow': ArcheryArrow,
+    'archery_sight': ArcherySight,
     'shots': Shots,
     'ends': Ends,
     'rounds': Rounds,

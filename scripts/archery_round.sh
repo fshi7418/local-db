@@ -83,7 +83,19 @@ while true; do
     fi
 done
 
-# Step 2.5: Ask the user for an integer that represents a number in the archery_target.id column
+# Step 2.5: Ask the user for an integer that represents a number in the archery_sight.id column
+python3 utilities.py query archery_sight
+while true; do
+    read -p "Please enter the ID from the 'archery_sight' table: " sight_id
+    if is_valid_integer "$sight_id"; then
+          echo "You selected archery_sight.id: $sight_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Step 2.6: Ask the user for an integer that represents a number in the archery_target.id column
 python3 utilities.py query archery_target
 while true; do
     read -p "Please enter the ID from the 'archery_target' table: " target_id
@@ -95,7 +107,7 @@ while true; do
     fi
 done
 
-# Step 2.6: Ask the user for an integer that represents distance in metres
+# Step 2.7: Ask the user for an integer that represents distance in metres
 while true; do
     read -p "Please enter the distance in metres: " distance_m
     if is_valid_integer "$distance_m"; then
@@ -106,7 +118,7 @@ while true; do
     fi
 done
 
-# Step 2.7: sight, stabiliser, clicker
+# Step 2.8: sight, stabiliser, clicker
 read -r -p "sight (y/n)? " yn
 if [ "$yn" == "y" ]; then
     sight="True"
@@ -127,7 +139,7 @@ else
 fi
 echo "sight, stabiliser, clicker: $sight, $stabiliser, $clicker"
 
-# Step 2.8: Ask the user for an integer that represents draw weight in pounds
+# Step 2.9: Ask the user for an integer that represents draw weight in pounds
 while true; do
     read -p "Please enter draw weight in pounds (lb.): " draw_weight_lb
     if is_valid_integer "$draw_weight_lb"; then
@@ -138,7 +150,7 @@ while true; do
     fi
 done
 
-# Step 2.9: Ask the user for environment-related variables
+# Step 2.10: Ask the user for environment-related variables
 while true; do
     read -p "On a scale of 1 (worst) to 10 (ideal), your mental condition was: " env_mental
     if is_valid_integer "$env_mental"; then
@@ -164,7 +176,7 @@ else
     hunger="False"
 fi
 
-# Step 2.10: Ask for start and end time
+# Step 2.11: Ask for start and end time
 while true; do
     read -p "Please enter a start time in hhmm (or press Enter to skip): " start_hhmm
 
@@ -229,4 +241,4 @@ done
 input_string=$(IFS=,; echo "[${rows[*]}]")
 
 # Pass the input string to the Python script
-python3 add_archery_round.py "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$input_string" "$todays_date"
+python3 add_archery_round.py "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$input_string" "$todays_date"
