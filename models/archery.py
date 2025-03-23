@@ -112,6 +112,7 @@ class ArcherySight(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     archery_manufacturer_id = Column(Integer, ForeignKey('archery_manufacturer.id'), nullable=True)
     name = Column(String, nullable=False)
+    magnification = Column(Integer)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
 
