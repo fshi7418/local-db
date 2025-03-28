@@ -13,7 +13,7 @@ class ExpenseCat(Enum):
 class ExpenseSource(Enum):
     AMEX = 'AMEX(1006)'
     BMOC = 'BMO Credit(6645)'
-    BMOPC = 'BMO Porter Credit'
+    BMOPC = 'BMO Porter Credit(0063)'
     BMOD = 'BMO Chequing(7334)'
     CIBCC = 'CIBC Credit(8807)'
     CIBCD = 'CIBC Chequing(9833)'
