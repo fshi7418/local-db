@@ -78,7 +78,7 @@ class ArcheryArrow(Base):
     name = Column(String, nullable=False)
     fletching = Column(String)
     size_mm = Column(Float)
-    spine_grain = Column(Integer)
+    spine = Column(Integer)
     shaft_length_in = Column(Float)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
