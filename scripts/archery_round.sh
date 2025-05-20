@@ -21,6 +21,15 @@ function is_valid_integer() {
     fi
 }
 
+# Function to check if input is a valid float
+function is_valid_float() {
+    if [[ $1 =~ ^[+-]?[0-9]*\.?[0-9]+$ ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # Step 1: Ask for today's date in yyyymmdd format
 while true; do
     read -p "Please enter round date (yyyymmdd): " todays_date
@@ -107,14 +116,14 @@ while true; do
     fi
 done
 
-# Step 2.7: Ask the user for an integer that represents distance in metres
+# Step 2.7: Ask the user for a float that represents distance in metres
 while true; do
     read -p "Please enter the distance in metres: " distance_m
-    if is_valid_integer "$distance_m"; then
+    if is_valid_float "$distance_m"; then
           echo "You put distance: $distance_m"
           break
     else
-        echo "Invalid input. Please enter a valid integer."
+        echo "Invalid input. Please enter a valid float."
     fi
 done
 
