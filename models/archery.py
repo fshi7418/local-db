@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, String, Boolean, Date, func
+from sqlalchemy import Column, Integer, Float, String, Boolean, Date, Text, func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import TIMESTAMP
@@ -13,6 +13,7 @@ class Rounds(Base):
     archery_range_id = Column(Integer, ForeignKey('archery_range.id'), nullable=True)
     distance_m = Column(Float, nullable=False)
     archery_target_id = Column(Integer, ForeignKey('archery_target.id'), nullable=True)
+    archery_scoring_rule_id = Column(Integer, ForeignKey('archery_scoring_rule.id'), nullable=True)
     sight = Column(Boolean, nullable=False)
     clicker = Column(Boolean, nullable=False)
     stabilisation = Column(Boolean, nullable=False)
@@ -160,4 +161,12 @@ class ArcheryRange(Base):
     address_province = Column(String)
     country_iso = Column(String(2))
     outdoor = Column(Boolean)
+    datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
+
+
+class ArcheryScoringRule(Base):
+    __tablename__ = 'archery_scoring_rule'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String)
+    description = Column(Text)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
