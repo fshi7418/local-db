@@ -127,7 +127,7 @@ while true; do
     fi
 done
 
-# Step 2.8: sight, stabiliser, clicker
+# Step 2.8: sight, stabiliser, clicker, distance
 read -r -p "sight (y/n)? " yn
 if [ "$yn" == "y" ]; then
     sight="True"
@@ -146,7 +146,20 @@ if [ "$yn" == "y" ]; then
 else
     clicker="False"
 fi
+read -r -p "known distance (y/n)? " yn
+if [ "$yn" == "y" ]; then
+    known_distance="True"
+else
+    known_distance="False"
+fi
+read -r -p "variable distance (y/n)? " yn
+if [ "$yn" == "y" ]; then
+    variable_distance="True"
+else
+    variable_distance="False"
+fi
 echo "sight, stabiliser, clicker: $sight, $stabiliser, $clicker"
+echo "known_distance, variable_distance: $known_distance, $variable_distance"
 
 # Step 2.9: Ask the user for an integer that represents draw weight in pounds
 while true; do
@@ -221,6 +234,18 @@ while true; do
     fi
 done
 
+# Step 2.13: Ask for arrow rest
+python3 utilities.py query archery_arrow_rest
+while true; do
+    read -p "Please enter the ID from the 'archery_arrow_rest' table: " archery_arrow_rest_id
+    if is_valid_integer "$archery_arrow_rest_id"; then
+          echo "You selected archery_arrow_rest.id: $archery_arrow_rest_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
 # Step 3: Ask for user input in n rows of m inputs
 echo "Please enter rows of inputs. Each row should contain integers or 'x'."
 echo "Separate inputs with spaces. Press Enter after each row."
@@ -262,4 +287,4 @@ done
 input_string=$(IFS=,; echo "[${rows[*]}]")
 
 # Pass the input string to the Python script
-python3 add_archery_round.py "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$input_string" "$todays_date" "$archery_scoring_rule_id"
+python3 add_archery_round.py "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$input_string" "$todays_date" "$archery_scoring_rule_id" "$archery_arrow_rest_id" "$known_distance" "$variable_distance"

@@ -14,7 +14,8 @@ class Round:
     def __init__(
         self, round_date_, range_id_, distance_m_, target_id_, sight_, clicker_, stabilisation_, riser_id_, limb_id_,
         score_list_, hunger_, scoring_rule_id_, start_time=None, end_time=None, draw_weight_lb_=None, arrow_id_=None,
-        condition_mental=None, condition_env=None, sight_id_=None
+        arrow_rest_id_=None, condition_mental=None, condition_env=None, sight_id_=None, known_distance_=None,
+        variable_distance_=None
     ):
         # direct data
         self.round_date = round_date_
@@ -24,6 +25,8 @@ class Round:
         self.sight = sight_
         self.clicker = clicker_
         self.stabilisation = stabilisation_
+        self.known_distance = known_distance_
+        self.variable_distance = variable_distance_
         self.riser_id = riser_id_
         self.limb_id = limb_id_
         self.score_list = score_list_
@@ -33,6 +36,7 @@ class Round:
         self.end_time = end_time
         self.draw_weight_lb = draw_weight_lb_
         self.arrow_id = arrow_id_
+        self.arrow_rest_id = arrow_rest_id_
         self.sight_id = sight_id_
         self.conditional_mental = condition_mental
         self.conditional_env = condition_env
@@ -98,8 +102,9 @@ class Round:
         self.round_obj = Rounds(
             date=self.round_date, archery_range_id=self.range_id, distance_m=self.distance_m,
             archery_target_id=self.target_id, sight=self.sight, clicker=self.clicker, stabilisation=self.stabilisation,
+            known_distance=self.known_distance, variable_distance=self.variable_distance,
             archery_riser_id=self.riser_id, archery_limb_id=self.limb_id, draw_weight_lb=self.draw_weight_lb,
-            archery_arrow_id=self.arrow_id, archery_sight_id=self.sight_id,
+            archery_arrow_id=self.arrow_id, archery_arrow_rest_id=self.arrow_rest_id, archery_sight_id=self.sight_id,
             total_score=self.total_score, num_x=self.num_x, num_10=self.num_10,
             num_9=self.num_9, stdev_ends=self.stdev_ends, stdev_shots=self.stdev_shots, avg_shots=self.avg_shots,
             num_ends=self.num_ends, num_shots=self.num_shots, condition_mental=self.conditional_mental,
@@ -127,13 +132,15 @@ class Round:
 
 def insert_archery_round(
     db_session, round_date_, range_id_, distance_m_, target_id_, sight_, clicker_, stabilisation_, riser_id_, limb_id_,
-    score_list, hunger_, scoring_rule_id_, start_time=None, end_time=None, draw_weight_lb_=None, arrow_id_=None, sight_id_=None,
+    score_list, hunger_, scoring_rule_id_, start_time=None, end_time=None, draw_weight_lb_=None, arrow_id_=None,
+    arrow_rest_id_=None, sight_id_=None, known_distance_=True, variable_distance_=False,
     condition_mental=None, condition_env=None
 ):
     round_obj = Round(
         round_date_, range_id_, distance_m_, target_id_, sight_, clicker_, stabilisation_, riser_id_, limb_id_,
-        score_list, hunger_, scoring_rule_id_, start_time=start_time, end_time=end_time,
-        draw_weight_lb_=draw_weight_lb_, arrow_id_=arrow_id_, sight_id_=sight_id_, condition_mental=condition_mental,
+        score_list, hunger_, scoring_rule_id_, start_time=start_time, end_time=end_time, known_distance_=known_distance,
+        variable_distance_=variable_distance, draw_weight_lb_=draw_weight_lb_, arrow_id_=arrow_id_,
+        arrow_rest_id_=arrow_rest_id_, sight_id_=sight_id_, condition_mental=condition_mental,
         condition_env=condition_env
     )
     round_obj.construct_round(db_session)
@@ -161,6 +168,9 @@ if __name__ == '__main__':
     round_date_str = sys.argv[18]
     round_date = datetime.datetime.strptime(round_date_str, '%Y%m%d')
     scoring_rule_id = int(sys.argv[19])
+    arrow_rest_id = int(sys.argv[20])
+    known_distance = ast.literal_eval(sys.argv[21])
+    variable_distance = ast.literal_eval(sys.argv[22])
 
     # Convert the input string to a Python list of lists
     scores_list = ast.literal_eval(scores_string)
@@ -192,5 +202,6 @@ if __name__ == '__main__':
     insert_archery_round(
         postgres_session, round_date, range_id, distance_m, target_id, sight, clicker, stabilisation, riser_id, limb_id,
         scores_list, hunger, scoring_rule_id, start_time=start_hhmm, end_time=end_hhmm, draw_weight_lb_=draw_weight_lb,
-        arrow_id_=arrow_id, condition_mental=env_mental, condition_env=env_physical, sight_id_=sight_id
+        arrow_id_=arrow_id, arrow_rest_id_=arrow_rest_id, condition_mental=env_mental, condition_env=env_physical,
+        sight_id_=sight_id, known_distance_=known_distance, variable_distance_=variable_distance
     )
