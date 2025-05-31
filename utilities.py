@@ -3,7 +3,7 @@ import sys
 from models import postgres_session
 # Import the necessary models
 from models.archery import ArcheryRange, ArcheryTarget, ArcheryBowType, ArcheryManufacturer, ArcheryLimb, \
-    ArcheryRiser, ArcheryArrow, Shots, Ends, Rounds, ArcherySight, ArcheryScoringRule
+    ArcheryRiser, ArcheryArrow, Shots, Ends, Rounds, ArcherySight, ArcheryScoringRule, ArcheryArrowRest
 from models.transactions import ExpenseBudget
 
 str_to_model = {
@@ -14,6 +14,7 @@ str_to_model = {
     'archery_limb': ArcheryLimb,
     'archery_riser': ArcheryRiser,
     'archery_arrow': ArcheryArrow,
+    'archery_arrow_rest': ArcheryArrowRest,
     'archery_scoring_rule': ArcheryScoringRule,
     'archery_sight': ArcherySight,
     'shots': Shots,

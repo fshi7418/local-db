@@ -22,6 +22,7 @@ class Rounds(Base):
     archery_sight_id = Column(Integer, ForeignKey('archery_sight.id'), nullable=True)
     draw_weight_lb = Column(Float, nullable=True)
     archery_arrow_id = Column(Integer, ForeignKey('archery_arrow.id'), nullable=True)
+    archery_arrow_rest_id = Column(Integer, ForeignKey('archery_arrow_rest.id'), nullable=True)
     total_score = Column(Integer, nullable=False)
     num_x = Column(Integer, nullable=False)
     num_10 = Column(Integer, nullable=False)
@@ -38,6 +39,8 @@ class Rounds(Base):
     start_time = Column(String(4), nullable=True)
     end_time = Column(String(4), nullable=True)
     remark = Column(String)
+    variable_distance = Column(Boolean, nullable=True)
+    known_distance = Column(Boolean, nullable=True)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
     ends = relationship('Ends', back_populates='archery_round', cascade='all, delete-orphan', lazy='joined')
@@ -169,4 +172,14 @@ class ArcheryScoringRule(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
     description = Column(Text)
+    datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
+
+
+class ArcheryArrowRest(Base):
+    __tablename__ = 'archery_arrow_rest'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    archery_manufacturer_id = Column(Integer, ForeignKey('archery_manufacturer.id'), nullable=True)
+    name = Column(String)
+    description = Column(Text)
+    arrow_rest_type = Column(String)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
