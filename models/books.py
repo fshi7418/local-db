@@ -138,6 +138,7 @@ class Book(Base):
     authors = relationship('BookAuthor', secondary=book_to_book_author, back_populates='books')
     languages = relationship('BookLanguage', secondary=book_to_book_language, back_populates='books')
     translators = relationship('BookTranslator', secondary=book_to_book_translator, back_populates='translated_books')
+    series = relationship('BookSeries', back_populates='books')
 
     def __repr__(self):
         return f"<Book(id={self.id}, title='{self.title}')>"
