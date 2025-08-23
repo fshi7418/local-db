@@ -26,6 +26,13 @@ book_to_book_translator = Table(
     Column('book_translator_id', Integer, ForeignKey('book_translator.id'), primary_key=True)
 )
 
+book_to_book_editor = Table(
+    'book_to_book_editor',
+    Base.metadata,
+    Column('book_id', Integer, ForeignKey('book.id'), primary_key=True),
+    Column('book_editor_id', Integer, ForeignKey('book_editor.id'), primary_key=True)
+)
+
 
 class BookFormat(Base):
     __tablename__ = 'book_format'
@@ -115,6 +122,23 @@ class BookSeries(Base):
         return f"<BookSeries(id={self.id}, name='{self.name}')>"
 
 
+class BookEditor(Base):
+    __tablename__ = 'book_editor'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    first_name = Column(String(100), nullable=False)
+    last_name = Column(String(100))
+    middle_name = Column(String(100))
+
+    datetime_entered = Column(DateTime, default=get_est_now_clean())
+
+    # Relationships
+    edited_books = relationship('Book', secondary=book_to_book_editor, back_populates='editors')
+
+    def __repr__(self):
+        return f"<BookEditor(id={self.id}, name='{self.first_name} {self.last_name}')>"
+
+
 class Book(Base):
     __tablename__ = 'book'
 
@@ -138,6 +162,7 @@ class Book(Base):
     authors = relationship('BookAuthor', secondary=book_to_book_author, back_populates='books')
     languages = relationship('BookLanguage', secondary=book_to_book_language, back_populates='books')
     translators = relationship('BookTranslator', secondary=book_to_book_translator, back_populates='translated_books')
+    editors = relationship('BookEditor', secondary=book_to_book_editor, back_populates='edited_books')
     series = relationship('BookSeries', back_populates='books')
 
     def __repr__(self):
