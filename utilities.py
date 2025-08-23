@@ -5,7 +5,7 @@ from models import postgres_session
 from models.transactions import ExpenseBudget
 from models.archery import ArcheryRange, ArcheryTarget, ArcheryBowType, ArcheryManufacturer, ArcheryLimb, \
     ArcheryRiser, ArcheryArrow, Shots, Ends, Rounds, ArcherySight, ArcheryScoringRule, ArcheryArrowRest
-from models.books import BookPublisher, BookAuthor, BookTranslator, BookLanguage, BookSeries, BookFormat, Book
+from models.books import BookPublisher, BookAuthor, BookTranslator, BookLanguage, BookSeries, BookEditor, BookFormat, Book
 
 str_to_model = {
     'archery_range': ArcheryRange,
@@ -20,6 +20,7 @@ str_to_model = {
     'archery_sight': ArcherySight,
     'book_publisher': BookPublisher,
     'book_author': BookAuthor,
+    'book_editor': BookEditor,
     'book_translator': BookTranslator,
     'book_language': BookLanguage,
     'book_series': BookSeries,

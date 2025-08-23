@@ -1,6 +1,6 @@
 import sys
 from models import postgres_session
-from models.books import Book, BookAuthor, BookLanguage, BookTranslator
+from models.books import Book, BookAuthor, BookLanguage, BookTranslator, BookEditor
 from datetime import datetime
 
 
@@ -32,7 +32,7 @@ def parse_ids(id_str):
 
 def insert_book(
     title, subtitle, isbn, isbn13, publication_date, page_count, date_read, series_order,
-    publisher_id, series_id, format_id, author_ids, language_ids, translator_ids
+    publisher_id, series_id, format_id, author_ids, language_ids, translator_ids, editor_ids
 ):
     # Build the Book object
     book = Book(
@@ -56,6 +56,8 @@ def insert_book(
         book.languages = postgres_session.query(BookLanguage).filter(BookLanguage.id.in_(language_ids)).all()
     if translator_ids:
         book.translators = postgres_session.query(BookTranslator).filter(BookTranslator.id.in_(translator_ids)).all()
+    if editor_ids:
+        book.editors = postgres_session.query(BookEditor).filter(BookEditor.id.in_(editor_ids)).all()
 
     try:
         postgres_session.add(book)
@@ -67,10 +69,10 @@ def insert_book(
         sys.exit(1)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 15:
+    if len(sys.argv) != 16:
         print("insert failed， arguments:")
         print(sys.argv)
-        print("Usage: add_book.py <title> <subtitle> <isbn> <isbn13> <publication_date> <page_count> <date_read> <series_order> <publisher_id> <series_id> <format_id> <author_ids> <language_ids> <translator_ids>")
+        print("Usage: add_book.py <title> <subtitle> <isbn> <isbn13> <publication_date> <page_count> <date_read> <series_order> <publisher_id> <series_id> <format_id> <author_ids> <language_ids> <translator_ids> <editor_ids>")
         sys.exit(1)
 
     title = sys.argv[1]
@@ -86,7 +88,8 @@ if __name__ == "__main__":
     format_id = sys.argv[11]
     author_ids = parse_ids(sys.argv[12])
     language_ids = parse_ids(sys.argv[13])
-    translator_ids = parse_ids(sys.argv[14]) if len(sys.argv) > 14 else []
+    translator_ids = parse_ids(sys.argv[14])
+    editor_ids = parse_ids(sys.argv[15])
 
     if not title:
         print("Title is required.")
@@ -100,5 +103,5 @@ if __name__ == "__main__":
 
     insert_book(
         title, subtitle, isbn, isbn13, publication_date, page_count, date_read, series_order,
-        publisher_id, series_id, format_id, author_ids, language_ids, translator_ids
+        publisher_id, series_id, format_id, author_ids, language_ids, translator_ids, editor_ids
     )

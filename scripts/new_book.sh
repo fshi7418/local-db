@@ -51,6 +51,16 @@ function insert_book_translator() {
     python3 add_book_translator.py "$first_name" "$last_name" "$middle_name"
 }
 
+# --- Insert Book Editor ---
+function insert_book_editor() {
+    echo "Insert a new Book Editor"
+    read -p "First name: " first_name
+    read -p "Last name (optional): " last_name
+    read -p "Middle name (optional): " middle_name
+
+    python3 add_book_editor.py "$first_name" "$last_name" "$middle_name"
+}
+
 # --- Insert Book ---
 function insert_book() {
     echo "Insert a new Book"
@@ -72,6 +82,10 @@ function insert_book() {
     python3 utilities.py query book_language
     read -p "Language IDs (comma separated for multiple): " language_ids
 
+    echo "Choose editors (comma separated for multiple):"
+    python3 utilities.py query book_editor
+    read -p "Editor IDs (comma separated for multiple): " editor_ids
+
     echo "Choose a Series (optional):"
     python3 utilities.py query book_series
     read -p "Series ID (or leave blank): " series_id
@@ -91,7 +105,7 @@ function insert_book() {
 
     python3 add_book.py \
         "$title" "$subtitle" "$isbn" "$isbn13" "$publication_date" "$page_count" "$date_read" "$series_order" \
-        "$publisher_id" "$series_id" "$format_id" "$author_ids" "$language_ids" "$translator_ids"
+        "$publisher_id" "$series_id" "$format_id" "$author_ids" "$language_ids" "$translator_ids" "$editor_ids"
 }
 
 # --- Main Menu ---
@@ -100,6 +114,7 @@ echo "1) Insert Book Author"
 echo "2) Insert Book Publisher"
 echo "3) Insert Book Translator"
 echo "4) Insert Book"
+echo "5) Insert Book Editor"
 read -p "Choose an option: " option
 
 case $option in
@@ -107,5 +122,6 @@ case $option in
     2) insert_book_publisher ;;
     3) insert_book_translator ;;
     4) insert_book ;;
+    5) insert_book_editor ;;
     *) echo "Invalid option" ;;
 esac
