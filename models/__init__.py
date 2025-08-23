@@ -1,4 +1,6 @@
 import json
+import pytz
+import datetime as dt
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -34,3 +36,10 @@ engine2 = create_engine(conn_string)
 Session2 = sessionmaker(bind=engine)
 
 postgres_session2 = Session2()
+
+
+def get_est_now_clean():
+    eastern = pytz.timezone('US/Eastern')
+    eastern_time_aware = dt.datetime.now(eastern)
+    eastern_time_naive = eastern_time_aware.replace(tzinfo=None)
+    return eastern_time_naive

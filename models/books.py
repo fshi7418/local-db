@@ -1,90 +1,143 @@
-from sqlalchemy import Column, Integer, String, SmallInteger, DateTime
-from sqlalchemy.sql import func
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy import Column, Integer, String, DateTime, Table, Date
+from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 
-from models import Base
+from models import Base, get_est_now_clean
+
+# Association tables for many-to-many relationships
+book_to_book_author = Table(
+    'book_to_book_author',
+    Base.metadata,
+    Column('book_id', Integer, ForeignKey('book.id'), primary_key=True),
+    Column('book_author_id', Integer, ForeignKey('book_author.id'), primary_key=True)
+)
+
+book_to_book_language = Table(
+    'book_to_book_language',
+    Base.metadata,
+    Column('book_id', Integer, ForeignKey('book.id'), primary_key=True),
+    Column('book_language_id', Integer, ForeignKey('book_language.id'), primary_key=True)
+)
+
+book_to_book_translator = Table(
+    'book_to_book_translator',
+    Base.metadata,
+    Column('book_id', Integer, ForeignKey('book.id'), primary_key=True),
+    Column('book_translator_id', Integer, ForeignKey('book_translator.id'), primary_key=True)
+)
 
 
-class Library(Base):
-    __tablename__ = 'library'
+class BookFormat(Base):
+    __tablename__ = 'book_format'
+
     id = Column(Integer, primary_key=True, autoincrement=True)
-    title_main = Column(String)
-    title_secondary = Column(String)
-    author_id = Column(Integer, ForeignKey('author.id'), index=True)
-    author_additional_id = Column(JSONB)
-    composition_language_id = Column(Integer, ForeignKey('language.id'), index=True)
-    language1_id = Column(Integer, ForeignKey('language.id'), index=True)
-    language2_id = Column(Integer, ForeignKey('language.id'))
-    language3_id = Column(Integer, ForeignKey('language.id'))
-    translator_id = Column(Integer, ForeignKey('author.id'))
-    translator_additional_id = Column(JSONB)
-    num_volume = Column(SmallInteger)
-    series = Column(String)
-    volume_in_series = Column(SmallInteger)
-    isbn = Column(String)
-    publisher_id = Column(Integer, ForeignKey('publisher.id'))
-    binding_id = Column(SmallInteger, ForeignKey('binding.id'))
-    num_pages = Column(Integer)
-    year_published = Column(SmallInteger)
-    year_published_original = Column(SmallInteger)
-    year_read = Column(SmallInteger)
-    month_read = Column(SmallInteger)
-    day_read = Column(SmallInteger)
-
-    datetime_entered = Column(
-        DateTime, default=func.now(), server_default=func.now()
-    )
-    last_updated = Column(
-        DateTime, default=func.now(), onupdate=func.now(), server_default=func.now(),
-        server_onupdate=func.now()
-    )
+    name = Column(String(20), nullable=False)
 
 
-class Author(Base):
-    __tablename__ = 'author'
+class BookAuthor(Base):
+    __tablename__ = 'book_author'
+
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, nullable=False)
-    last_name = Column(String)
-    first_name = Column(String)
-    datetime_entered = Column(
-        DateTime, default=func.now(), server_default=func.now()
-    )
-    last_updated = Column(
-        DateTime, default=func.now(), onupdate=func.now(), server_default=func.now(),
-        server_onupdate=func.now()
-    )
+    first_name = Column(String(100), nullable=False)
+    last_name = Column(String(100))
+    middle_name = Column(String(100))
+    birth_date = Column(Date)
+    death_date = Column(Date)
+    nationality = Column(String(100))
+
+    datetime_entered = Column(DateTime, default=get_est_now_clean())
+
+    # Relationships
+    books = relationship('Book', secondary=book_to_book_author, back_populates='authors')
+
+    def __repr__(self):
+        return f"<BookAuthor(id={self.id}, name='{self.first_name} {self.last_name}')>"
 
 
-class Language(Base):
-    __tablename__ = 'language'
+class BookTranslator(Base):
+    __tablename__ = 'book_translator'
+
     id = Column(Integer, primary_key=True, autoincrement=True)
-    language = Column(String, nullable=False)
-    datetime_entered = Column(
-        DateTime, default=func.now(), server_default=func.now()
-    )
-    last_updated = Column(
-        DateTime, default=func.now(), onupdate=func.now(), server_default=func.now(),
-        server_onupdate=func.now()
-    )
+    first_name = Column(String(100), nullable=False)
+    last_name = Column(String(100))
+    middle_name = Column(String(100))
+
+    datetime_entered = Column(DateTime, default=get_est_now_clean())
+
+    # Relationships
+    translated_books = relationship('Book', secondary=book_to_book_translator, back_populates='translators')
+
+    def __repr__(self):
+        return f"<BookTranslator(id={self.id}, name='{self.first_name} {self.last_name}')>"
 
 
-class Publisher(Base):
-    __tablename__ = 'publisher'
+class BookLanguage(Base):
+    __tablename__ = 'book_language'
+
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, nullable=False)
-    country = Column(String)
-    city = Column(String)
-    datetime_entered = Column(
-        DateTime, default=func.now(), server_default=func.now()
-    )
-    last_updated = Column(
-        DateTime, default=func.now(), onupdate=func.now(), server_default=func.now(),
-        server_onupdate=func.now()
-    )
+    name = Column(String(50), unique=True, nullable=False)
+    code = Column(String(10), unique=True)  # ISO language code
+
+    datetime_entered = Column(DateTime, default=get_est_now_clean())
+
+    # Relationships
+    books = relationship('Book', secondary=book_to_book_language, back_populates='languages')
+
+    def __repr__(self):
+        return f"<BookLanguage(id={self.id}, name='{self.name}')>"
 
 
-class Binding(Base):
-    __tablename__ = 'binding'
+class BookPublisher(Base):
+    __tablename__ = 'book_publisher'
+
     id = Column(Integer, primary_key=True, autoincrement=True)
-    description = Column(String, nullable=False)
+    name = Column(String(200), nullable=False)
+
+    datetime_entered = Column(DateTime, default=get_est_now_clean())
+
+    def __repr__(self):
+        return f"<BookPublisher(id={self.id}, name='{self.name}')>"
+
+
+class BookSeries(Base):
+    __tablename__ = 'book_series'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(200), nullable=False)
+    total_books = Column(Integer)  # Total books planned in the series
+
+    datetime_entered = Column(DateTime, default=get_est_now_clean())
+
+    # Relationships
+    books = relationship('Book', back_populates='series')
+
+    def __repr__(self):
+        return f"<BookSeries(id={self.id}, name='{self.name}')>"
+
+
+class Book(Base):
+    __tablename__ = 'book'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String(300), nullable=False)
+    subtitle = Column(String(300))
+    isbn = Column(String(20), unique=True)
+    isbn13 = Column(String(15), unique=True)
+    publication_date = Column(Date)
+    page_count = Column(Integer)
+    date_read = Column(Date)
+    datetime_entered = Column(DateTime, default=get_est_now_clean())
+    series_order = Column(Integer)  # Order in the series
+
+    # Foreign keys
+    publisher_id = Column(Integer, ForeignKey('book_publisher.id'))
+    series_id = Column(Integer, ForeignKey('book_series.id'))
+    format_id = Column(Integer, ForeignKey('book_format.id'))
+
+    # Relationships
+    authors = relationship('BookAuthor', secondary=book_to_book_author, back_populates='books')
+    languages = relationship('BookLanguage', secondary=book_to_book_language, back_populates='books')
+    translators = relationship('BookTranslator', secondary=book_to_book_translator, back_populates='translated_books')
+
+    def __repr__(self):
+        return f"<Book(id={self.id}, title='{self.title}')>"
