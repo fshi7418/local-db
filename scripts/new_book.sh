@@ -26,11 +26,15 @@ function insert_book_author() {
     read -p "First name: " first_name
     read -p "Last name (optional): " last_name
     read -p "Middle name (optional): " middle_name
-    read -p "Birth date (YYYY-MM-DD, optional): " birth_date
-    read -p "Death date (YYYY-MM-DD, optional): " death_date
+    read -p "Birthday year (YYYY, optional): " birth_year
+    read -p "Birthday month (MM, optional): " birth_month
+    read -p "Birthday day (DD, optional): " birth_day
+    read -p "Death year (YYYY, optional): " death_year
+    read -p "Death month (MM, optional): " death_month
+    read -p "Death day (DD, optional): " death_day
     read -p "Nationality (optional, ISO 3166-1 alpha-2 code): " nationality
 
-    python3 add_book_author.py "$first_name" "$last_name" "$middle_name" "$birth_date" "$death_date" "$nationality"
+    python3 add_book_author.py "$first_name" "$last_name" "$middle_name" "$birth_year" "$birth_month" "$birth_day" "$death_year" "$death_month" "$death_day" "$nationality"
 }
 
 # --- Insert Book Publisher ---
