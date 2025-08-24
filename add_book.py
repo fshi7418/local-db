@@ -32,7 +32,8 @@ def parse_ids(id_str):
 
 def insert_book(
     title, subtitle, isbn, isbn13, publication_date, page_count, date_read, series_order,
-    publisher_id, series_id, format_id, author_ids, language_ids, translator_ids, editor_ids
+    publisher_id, series_id, format_id, author_ids, language_ids, translator_ids, editor_ids,
+    edition
 ):
     # Build the Book object
     book = Book(
@@ -44,6 +45,7 @@ def insert_book(
         page_count=parse_int(page_count),
         date_read=parse_date(date_read),
         series_order=parse_int(series_order),
+        edition=parse_int(edition),
         publisher_id=parse_int(publisher_id),
         series_id=parse_int(series_id),
         format_id=parse_int(format_id)
@@ -69,10 +71,10 @@ def insert_book(
         sys.exit(1)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 16:
+    if len(sys.argv) != 17:
         print("insert failed， arguments:")
         print(sys.argv)
-        print("Usage: add_book.py <title> <subtitle> <isbn> <isbn13> <publication_date> <page_count> <date_read> <series_order> <publisher_id> <series_id> <format_id> <author_ids> <language_ids> <translator_ids> <editor_ids>")
+        print("Usage: add_book.py <title> <subtitle> <isbn> <isbn13> <publication_date> <page_count> <date_read> <series_order> <publisher_id> <series_id> <format_id> <author_ids> <language_ids> <translator_ids> <editor_ids> <edition>")
         sys.exit(1)
 
     title = sys.argv[1]
@@ -90,6 +92,7 @@ if __name__ == "__main__":
     language_ids = parse_ids(sys.argv[13])
     translator_ids = parse_ids(sys.argv[14])
     editor_ids = parse_ids(sys.argv[15])
+    edition = sys.argv[16]
 
     if not title:
         print("Title is required.")
@@ -103,5 +106,6 @@ if __name__ == "__main__":
 
     insert_book(
         title, subtitle, isbn, isbn13, publication_date, page_count, date_read, series_order,
-        publisher_id, series_id, format_id, author_ids, language_ids, translator_ids, editor_ids
+        publisher_id, series_id, format_id, author_ids, language_ids, translator_ids, editor_ids,
+        edition
     )

@@ -102,10 +102,12 @@ function insert_book() {
     read -p "Page count (optional): " page_count
     read -p "Date read (YYYY-MM-DD, optional): " date_read
     read -p "Series order (optional): " series_order
+    read -p "Edition (optional): " edition
 
     python3 add_book.py \
         "$title" "$subtitle" "$isbn" "$isbn13" "$publication_date" "$page_count" "$date_read" "$series_order" \
-        "$publisher_id" "$series_id" "$format_id" "$author_ids" "$language_ids" "$translator_ids" "$editor_ids"
+        "$publisher_id" "$series_id" "$format_id" "$author_ids" "$language_ids" "$translator_ids" "$editor_ids" \
+        "$edition"
 }
 
 # --- Main Menu ---

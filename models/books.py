@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Table, Date
+from sqlalchemy import Column, Integer, String, DateTime, Table, Date, SmallInteger
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 
@@ -147,11 +147,15 @@ class Book(Base):
     subtitle = Column(String(300))
     isbn = Column(String(20), unique=True)
     isbn13 = Column(String(15), unique=True)
+    publication_year = Column(SmallInteger)
+    publication_month = Column(SmallInteger)
+    publication_day = Column(SmallInteger)
     publication_date = Column(Date)
     page_count = Column(Integer)
     date_read = Column(Date)
     datetime_entered = Column(DateTime, default=get_est_now_clean())
     series_order = Column(Integer)  # Order in the series
+    edition = Column(Integer)
 
     # Foreign keys
     publisher_id = Column(Integer, ForeignKey('book_publisher.id'))
