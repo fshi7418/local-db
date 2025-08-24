@@ -99,8 +99,8 @@ function insert_book() {
     read -p "ISBN (optional): " isbn
     read -p "ISBN13 (optional): " isbn13
     read -p "Publication year (YYYY), optional): " publication_year
-    read -p "Publication date (MM, optional): " publication_month
-    read -p "Publication date (DD, optional): " publication_day
+    read -p "Publication month (MM, optional): " publication_month
+    read -p "Publication day (DD, optional): " publication_day
     read -p "Page count (optional): " page_count
     read -p "Date read (YYYY-MM-DD, optional): " date_read
     read -p "Series order (optional): " series_order
