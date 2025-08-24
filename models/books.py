@@ -150,7 +150,6 @@ class Book(Base):
     publication_year = Column(SmallInteger)
     publication_month = Column(SmallInteger)
     publication_day = Column(SmallInteger)
-    publication_date = Column(Date)
     page_count = Column(Integer)
     date_read = Column(Date)
     datetime_entered = Column(DateTime, default=get_est_now_clean())

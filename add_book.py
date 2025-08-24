@@ -31,7 +31,7 @@ def parse_ids(id_str):
 
 
 def insert_book(
-    title, subtitle, isbn, isbn13, publication_date, page_count, date_read, series_order,
+    title, subtitle, isbn, isbn13, publication_year, publication_month, publication_day, page_count, date_read, series_order,
     publisher_id, series_id, format_id, author_ids, language_ids, translator_ids, editor_ids,
     edition
 ):
@@ -41,7 +41,9 @@ def insert_book(
         subtitle=subtitle or None,
         isbn=isbn or None,
         isbn13=isbn13 or None,
-        publication_date=parse_date(publication_date),
+        publication_year=parse_int(publication_year),
+        publication_month=parse_int(publication_month),
+        publication_day=parse_int(publication_day),
         page_count=parse_int(page_count),
         date_read=parse_date(date_read),
         series_order=parse_int(series_order),
@@ -71,28 +73,24 @@ def insert_book(
         sys.exit(1)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 17:
-        print("insert failed， arguments:")
-        print(sys.argv)
-        print("Usage: add_book.py <title> <subtitle> <isbn> <isbn13> <publication_date> <page_count> <date_read> <series_order> <publisher_id> <series_id> <format_id> <author_ids> <language_ids> <translator_ids> <editor_ids> <edition>")
-        sys.exit(1)
-
     title = sys.argv[1]
     subtitle = sys.argv[2]
     isbn = sys.argv[3]
     isbn13 = sys.argv[4]
-    publication_date = sys.argv[5]
-    page_count = sys.argv[6]
-    date_read = sys.argv[7]
-    series_order = sys.argv[8]
-    publisher_id = sys.argv[9]
-    series_id = sys.argv[10]
-    format_id = sys.argv[11]
-    author_ids = parse_ids(sys.argv[12])
-    language_ids = parse_ids(sys.argv[13])
-    translator_ids = parse_ids(sys.argv[14])
-    editor_ids = parse_ids(sys.argv[15])
-    edition = sys.argv[16]
+    publication_year = sys.argv[5]
+    publication_month = sys.argv[6]
+    publication_day = sys.argv[7]
+    page_count = sys.argv[8]
+    date_read = sys.argv[9]
+    series_order = sys.argv[10]
+    publisher_id = sys.argv[11]
+    series_id = sys.argv[12]
+    format_id = sys.argv[13]
+    author_ids = parse_ids(sys.argv[14])
+    language_ids = parse_ids(sys.argv[15])
+    translator_ids = parse_ids(sys.argv[16])
+    editor_ids = parse_ids(sys.argv[17])
+    edition = sys.argv[18]
 
     if not title:
         print("Title is required.")
@@ -105,7 +103,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     insert_book(
-        title, subtitle, isbn, isbn13, publication_date, page_count, date_read, series_order,
+        title, subtitle, isbn, isbn13, publication_year, publication_month, publication_day, page_count, date_read, series_order,
         publisher_id, series_id, format_id, author_ids, language_ids, translator_ids, editor_ids,
         edition
     )

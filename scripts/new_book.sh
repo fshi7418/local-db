@@ -98,16 +98,18 @@ function insert_book() {
     read -p "Subtitle (optional): " subtitle
     read -p "ISBN (optional): " isbn
     read -p "ISBN13 (optional): " isbn13
-    read -p "Publication date (YYYY-MM-DD, optional): " publication_date
+    read -p "Publication year (YYYY), optional): " publication_year
+    read -p "Publication date (MM, optional): " publication_month
+    read -p "Publication date (DD, optional): " publication_day
     read -p "Page count (optional): " page_count
     read -p "Date read (YYYY-MM-DD, optional): " date_read
     read -p "Series order (optional): " series_order
     read -p "Edition (optional): " edition
 
     python3 add_book.py \
-        "$title" "$subtitle" "$isbn" "$isbn13" "$publication_date" "$page_count" "$date_read" "$series_order" \
-        "$publisher_id" "$series_id" "$format_id" "$author_ids" "$language_ids" "$translator_ids" "$editor_ids" \
-        "$edition"
+        "$title" "$subtitle" "$isbn" "$isbn13" "$publication_year" "$publication_month" "$publication_day" \
+        "$page_count" "$date_read" "$series_order" "$publisher_id" "$series_id" "$format_id" "$author_ids" \
+        "$language_ids" "$translator_ids" "$editor_ids" "$edition"
 }
 
 # --- Main Menu ---
