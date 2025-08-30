@@ -2,9 +2,10 @@ import sys
 from models import postgres_session
 from models.books import BookPublisher
 
-def insert_book_publisher(name):
+
+def insert_book_publisher(name_):
     publisher = BookPublisher(
-        name=name
+        name=name_
     )
 
     try:
@@ -16,11 +17,8 @@ def insert_book_publisher(name):
         print(f"Error inserting BookPublisher: {e}")
         sys.exit(1)
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: add_book_publisher.py <publisher_name>")
-        sys.exit(1)
 
+if __name__ == "__main__":
     name = sys.argv[1]
 
     if not name:

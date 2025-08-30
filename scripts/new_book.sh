@@ -45,6 +45,17 @@ function insert_book_publisher() {
     python3 add_book_publisher.py "$publisher_name"
 }
 
+function insert_book_series() {
+    echo "Insert a new Book Series"
+    read -p "Series name: " series_name
+    read -p "Number of books: " num_books
+    echo -----
+    python3 utilities.py query book_publisher
+    read -p "Enter Book Publisher ID: " publisher_id
+
+    python3 add_book_series.py "$series_name" "$num_books" "$publisher_id"
+}
+
 # --- Insert Book Translator ---
 function insert_book_translator() {
     echo "Insert a new Book Translator"
@@ -82,17 +93,19 @@ function insert_book() {
     python3 utilities.py query book_translator
     read -p "Translator IDs (comma separated, optional): " translator_ids
 
-    echo "Choose languages (comma separated for multiple):"
-    python3 utilities.py query book_language
-    read -p "Language IDs (comma separated for multiple): " language_ids
-
     echo "Choose editors (comma separated for multiple):"
     python3 utilities.py query book_editor
     read -p "Editor IDs (comma separated for multiple): " editor_ids
 
+    echo "Choose languages (comma separated for multiple):"
+    python3 utilities.py query book_language
+    read -p "Language IDs (comma separated for multiple): " language_ids
+
     echo "Choose a Series (optional):"
     python3 utilities.py query book_series
     read -p "Series ID (or leave blank): " series_id
+
+    read -p "Series order (optional): " series_order
 
     echo "Choose a Format:"
     python3 utilities.py query book_format
@@ -105,10 +118,9 @@ function insert_book() {
     read -p "Publication year (YYYY), optional): " publication_year
     read -p "Publication month (MM, optional): " publication_month
     read -p "Publication day (DD, optional): " publication_day
+    read -p "Edition (optional): " edition
     read -p "Page count (optional): " page_count
     read -p "Date read (YYYY-MM-DD, optional): " date_read
-    read -p "Series order (optional): " series_order
-    read -p "Edition (optional): " edition
 
     python3 add_book.py \
         "$title" "$subtitle" "$isbn" "$isbn13" "$publication_year" "$publication_month" "$publication_day" \
@@ -123,6 +135,7 @@ echo "2) Insert Book Publisher"
 echo "3) Insert Book Translator"
 echo "4) Insert Book"
 echo "5) Insert Book Editor"
+echo "6) Insert Book Series"
 read -p "Choose an option: " option
 
 case $option in
@@ -131,5 +144,6 @@ case $option in
     3) insert_book_translator ;;
     4) insert_book ;;
     5) insert_book_editor ;;
+    6) insert_book_series ;;
     *) echo "Invalid option" ;;
 esac
