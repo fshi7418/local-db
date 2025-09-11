@@ -128,6 +128,7 @@ class Round:
         db_session.add(self.round_obj)
         print('committing...')
         db_session.commit()
+        self.round_id = self.round_obj.id
 
 
 def insert_archery_round(
@@ -138,13 +139,14 @@ def insert_archery_round(
 ):
     round_obj = Round(
         round_date_, range_id_, distance_m_, target_id_, sight_, clicker_, stabilisation_, riser_id_, limb_id_,
-        score_list, hunger_, scoring_rule_id_, start_time=start_time, end_time=end_time, known_distance_=known_distance,
-        variable_distance_=variable_distance, draw_weight_lb_=draw_weight_lb_, arrow_id_=arrow_id_,
+        score_list, hunger_, scoring_rule_id_, start_time=start_time, end_time=end_time, known_distance_=known_distance_,
+        variable_distance_=variable_distance_, draw_weight_lb_=draw_weight_lb_, arrow_id_=arrow_id_,
         arrow_rest_id_=arrow_rest_id_, sight_id_=sight_id_, condition_mental=condition_mental,
         condition_env=condition_env
     )
     round_obj.construct_round(db_session)
     round_obj.insert_round(db_session)
+    print(f'inserted, average {round_obj.avg_shots}, id {round_obj.round_id}')
 
 
 if __name__ == '__main__':
