@@ -23,6 +23,7 @@ class Rounds(Base):
     draw_weight_lb = Column(Float, nullable=True)
     archery_arrow_id = Column(Integer, ForeignKey('archery_arrow.id'), nullable=True)
     archery_arrow_rest_id = Column(Integer, ForeignKey('archery_arrow_rest.id'), nullable=True)
+    archery_release_aid_id = Column(Integer, ForeignKey('archery_release_aid.id'), nullable=True)
     total_score = Column(Integer, nullable=False)
     num_x = Column(Integer, nullable=False)
     num_10 = Column(Integer, nullable=False)
@@ -117,6 +118,14 @@ class ArcherySight(Base):
     archery_manufacturer_id = Column(Integer, ForeignKey('archery_manufacturer.id'), nullable=True)
     name = Column(String, nullable=False)
     magnification = Column(Integer)
+    datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
+
+
+class ArcheryReleaseAid(Base):
+    __tablename__ = 'archery_release_aid'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    archery_manufacturer_id = Column(Integer, ForeignKey('archery_manufacturer.id'), nullable=True)
+    name = Column(String, nullable=False)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
 
