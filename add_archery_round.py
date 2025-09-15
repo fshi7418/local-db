@@ -14,8 +14,8 @@ class Round:
     def __init__(
         self, round_date_, range_id_, distance_m_, target_id_, sight_, clicker_, stabilisation_, riser_id_, limb_id_,
         score_list_, hunger_, scoring_rule_id_, start_time=None, end_time=None, draw_weight_lb_=None, arrow_id_=None,
-        arrow_rest_id_=None, condition_mental=None, condition_env=None, sight_id_=None, known_distance_=None,
-        variable_distance_=None
+        arrow_rest_id_=None, condition_mental=None, condition_env=None, sight_id_=None, release_aid_id_=None,
+        known_distance_=None, variable_distance_=None
     ):
         # direct data
         self.round_date = round_date_
@@ -37,6 +37,7 @@ class Round:
         self.draw_weight_lb = draw_weight_lb_
         self.arrow_id = arrow_id_
         self.arrow_rest_id = arrow_rest_id_
+        self.release_aid_id = release_aid_id_
         self.sight_id = sight_id_
         self.conditional_mental = condition_mental
         self.conditional_env = condition_env
@@ -109,6 +110,7 @@ class Round:
             num_9=self.num_9, stdev_ends=self.stdev_ends, stdev_shots=self.stdev_shots, avg_shots=self.avg_shots,
             num_ends=self.num_ends, num_shots=self.num_shots, condition_mental=self.conditional_mental,
             condition_env=self.conditional_env, hunger=self.hunger, archery_scoring_rule_id=self.scoring_rule_id,
+            archery_release_aid_id=self.release_aid_id,
             start_time=self.start_time if self.start_time else null(),
             end_time=self.end_time if self.end_time else null(),
             days_since_last_practice=self.days_since_last,
@@ -134,15 +136,15 @@ class Round:
 def insert_archery_round(
     db_session, round_date_, range_id_, distance_m_, target_id_, sight_, clicker_, stabilisation_, riser_id_, limb_id_,
     score_list, hunger_, scoring_rule_id_, start_time=None, end_time=None, draw_weight_lb_=None, arrow_id_=None,
-    arrow_rest_id_=None, sight_id_=None, known_distance_=True, variable_distance_=False,
+    arrow_rest_id_=None, release_aid_id_=None, sight_id_=None, known_distance_=True, variable_distance_=False,
     condition_mental=None, condition_env=None
 ):
     round_obj = Round(
         round_date_, range_id_, distance_m_, target_id_, sight_, clicker_, stabilisation_, riser_id_, limb_id_,
         score_list, hunger_, scoring_rule_id_, start_time=start_time, end_time=end_time, known_distance_=known_distance_,
         variable_distance_=variable_distance_, draw_weight_lb_=draw_weight_lb_, arrow_id_=arrow_id_,
-        arrow_rest_id_=arrow_rest_id_, sight_id_=sight_id_, condition_mental=condition_mental,
-        condition_env=condition_env
+        arrow_rest_id_=arrow_rest_id_, sight_id_=sight_id_, release_aid_id_=release_aid_id_,
+        condition_mental=condition_mental, condition_env=condition_env
     )
     round_obj.construct_round(db_session)
     round_obj.insert_round(db_session)
@@ -173,6 +175,7 @@ if __name__ == '__main__':
     arrow_rest_id = int(sys.argv[20])
     known_distance = ast.literal_eval(sys.argv[21])
     variable_distance = ast.literal_eval(sys.argv[22])
+    release_aid_id = int(sys.argv[23])
 
     # Convert the input string to a Python list of lists
     scores_list = ast.literal_eval(scores_string)
@@ -204,6 +207,7 @@ if __name__ == '__main__':
     insert_archery_round(
         postgres_session, round_date, range_id, distance_m, target_id, sight, clicker, stabilisation, riser_id, limb_id,
         scores_list, hunger, scoring_rule_id, start_time=start_hhmm, end_time=end_hhmm, draw_weight_lb_=draw_weight_lb,
-        arrow_id_=arrow_id, arrow_rest_id_=arrow_rest_id, condition_mental=env_mental, condition_env=env_physical,
-        sight_id_=sight_id, known_distance_=known_distance, variable_distance_=variable_distance
+        arrow_id_=arrow_id, arrow_rest_id_=arrow_rest_id, release_aid_id_=release_aid_id, condition_mental=env_mental,
+        condition_env=env_physical, sight_id_=sight_id, known_distance_=known_distance,
+        variable_distance_=variable_distance
     )
