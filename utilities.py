@@ -41,7 +41,7 @@ def execute_any_q_text(db_engine, q_stmt):
 
     :param db_engine: Path to the SQLite database file.
     :param q_stmt: SQL query string.
-    :return: List of tuples containing the results.
+    :return: list of str, representing the column names, and list of tuples containing the results.
     """
     # Connect to the database
     connection = db_engine.raw_connection()
@@ -52,6 +52,7 @@ def execute_any_q_text(db_engine, q_stmt):
         cursor.execute(q_stmt)
         # Fetch all results
         results = cursor.fetchall()
+        column_names = [description[0] for description in cursor.description]
 
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -59,7 +60,40 @@ def execute_any_q_text(db_engine, q_stmt):
         # Close the cursor and connection
         cursor.close()
         connection.close()
-        return results
+        return column_names, results
+
+
+def display_table_rows_given_columns(column_names, rows):
+    if not rows:
+        print("No records found.")
+        return
+
+    # transform result into list of dict
+    r_records = [{
+        c: r[i] for i, c in enumerate(column_names)
+    } for r in rows]
+
+    # get the appropriate string length to left-justify to make the cmd print output readable
+    max_str_len_by_col_name = {cn: len(cn) for cn in column_names}
+    for row in r_records:
+        for col, val in row.items():
+            val = str(val)
+            if len(val) > max_str_len_by_col_name[col]:
+                max_str_len_by_col_name[col] = len(val)
+
+    # construct what is actually printed
+    column_names_printed = [cn.ljust(max_str_len_by_col_name[cn]) for cn in column_names]
+
+    # Print header
+    header = "|".join(column_names_printed)
+    print(header)
+    print("-" * len(header))
+    row_data = []
+    for row in r_records:
+        for col, val in row.items():
+            row_data.append(str(val).ljust(max_str_len_by_col_name[col]))
+        print('|'.join(row_data))
+        row_data = []
 
 
 def display_table_rows(model_, rows):
@@ -67,9 +101,7 @@ def display_table_rows(model_, rows):
         print("No records found.")
         return
 
-    # Get column names
     column_names = model_.__table__.columns.keys()
-
     # get the appropriate string length to left-justify to make the cmd print output readable
     max_str_len_by_col_name = {cn: len(cn) for cn in column_names}
     for row in rows:
@@ -112,6 +144,22 @@ def display_and_return_table_rows(model_, session):
         return ret
 
 
+def query_and_display_stmt(db_session, q):
+    cols, rs = execute_any_q_text(db_session, q)
+    display_table_rows_given_columns(cols, rs)
+
+
+def display_expense_categories(db_session, year):
+    query_and_display_stmt(db_session.bind, f'''
+        select budget_start_date, budget_end_date, income_expense, category, subcategory, id
+        from expense_budget
+        where true
+        and budget_start_date = '{year}-01-01'
+        and budget_end_date = '{year}-12-31'
+        order by income_expense, category, subcategory
+    ''')
+
+
 if __name__ == '__main__':
     cmd_args = sys.argv
     cmd_type = cmd_args[1]
@@ -123,6 +171,13 @@ if __name__ == '__main__':
         if model is None:
             raise KeyError(f'{table_name} does not exist')
         display_and_return_table_rows(model, postgres_session)
+    elif cmd_type == 'function':
+        function_name = cmd_args[2]
+        if function_name == 'expense_categories':
+            year_int = int(cmd_args[3])
+            display_expense_categories(postgres_session, year_int)
+        else:
+            raise NotImplementedError(f'{function_name} not implemented')
     else:
         raise NotImplementedError(f'{cmd_type} is not implemented')
 
