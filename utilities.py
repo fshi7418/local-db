@@ -160,6 +160,93 @@ def display_expense_categories(db_session, year):
     ''')
 
 
+def display_archery_risers(db_session):
+    q = f'''
+        select 
+            r.id as riser_id, t.name as bow_type, m.name as manufacturer, r.name as riser_name, r.length_in, 
+            r.rh_lh, r.letoff_pct
+        from archery_riser r
+        left join archery_manufacturer m on m.id = r.archery_manufacturer_id
+        left join archery_bow_type t on t.id = r.archery_bow_type_id
+        order by t.name, m.name, r.name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_archery_limbs(db_session):
+    q = f'''
+        select 
+            l.id as limb_id, m.name as manufacturer, l.name as limb, l.total_length_in, l.draw_weight_lb_min, 
+            l.draw_weight_lb_max, t.name
+        from archery_limb l
+        left join archery_manufacturer m on m.id = l.archery_manufacturer_id
+        left join archery_bow_type t on t.id = l.archery_bow_type_id
+        order by t.name, m.name, l.total_length_in, l.draw_weight_lb_max
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_archery_ranges(db_session):
+    q = f'''
+        select 
+            id, name, country_iso, address_province, address_city, address_street, outdoor
+        from archery_range 
+        order by country_iso, address_province, address_city, name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_archery_arrows(db_session):
+    q = f'''
+        select 
+            a.id as arrow_id, m.name as manufacturer, a.name as arrow, shaft_length_in, spine, size_mm, fletching
+        from archery_arrow a
+        left join archery_manufacturer m on a.archery_manufacturer_id = m.id
+        order by m.name, fletching, shaft_length_in, size_mm, spine, a.name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_archery_sights(db_session):
+    q = f'''
+        select 
+            s.id as sight_id, m.name as manufacturer, s.name as sight, s.magnification
+        from archery_sight s
+        left join archery_manufacturer m on s.archery_manufacturer_id = m.id
+        order by m.name, s.name, s.magnification
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_archery_targets(db_session):
+    q = f'''
+        select * from archery_target order by id
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_archery_arrow_rests(db_session):
+    q = f'''
+        select 
+            r.id as rest_id, m.name as manufacturer, r.name as rest_name, r.description as rest_desc, r.arrow_rest_type
+        from archery_arrow_rest r
+        left join archery_manufacturer m on r.archery_manufacturer_id = m.id
+        order by r.arrow_rest_type, m.name, r.name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_archery_release_aids(db_session):
+    q = f'''
+        select 
+            r.id as release_aid_id, m.name as manufacturer, r.name as release_aid_name
+        from archery_release_aid r
+        left join archery_manufacturer m on r.archery_manufacturer_id = m.id
+        order by m.name, r.name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
 if __name__ == '__main__':
     cmd_args = sys.argv
     cmd_type = cmd_args[1]
@@ -176,6 +263,22 @@ if __name__ == '__main__':
         if function_name == 'expense_categories':
             year_int = int(cmd_args[3])
             display_expense_categories(postgres_session, year_int)
+        elif function_name == 'display_archery_risers':
+            display_archery_risers(postgres_session)
+        elif function_name == 'display_archery_limbs':
+            display_archery_limbs(postgres_session)
+        elif function_name == 'display_archery_ranges':
+            display_archery_ranges(postgres_session)
+        elif function_name == 'display_archery_arrows':
+            display_archery_arrows(postgres_session)
+        elif function_name == 'display_archery_sights':
+            display_archery_sights(postgres_session)
+        elif function_name == 'display_archery_targets':
+            display_archery_targets(postgres_session)
+        elif function_name == 'display_archery_arrow_rests':
+            display_archery_arrow_rests(postgres_session)
+        elif function_name == 'display_archery_release_aids':
+            display_archery_release_aids(postgres_session)
         else:
             raise NotImplementedError(f'{function_name} not implemented')
     else:

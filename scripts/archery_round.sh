@@ -45,7 +45,7 @@ echo "You entered: $todays_date"
 # Step 2: Call the Python function to get data in several archery tables
 
 # Step 2.1: Ask the user for an integer that represents a number in the archery_riser.id column
-python3 utilities.py query archery_riser
+python3 utilities.py function display_archery_risers
 while true; do
     read -rp "Please enter the ID from the 'archery_riser' table: " riser_id
     if is_valid_integer "$riser_id"; then
@@ -57,7 +57,7 @@ while true; do
 done
 
 # Step 2.2: Ask the user for an integer that represents a number in the archery_limb.id column
-python3 utilities.py query archery_limb
+python3 utilities.py function display_archery_limbs
 while true; do
     read -rp "Please enter the ID from the 'archery_limb' table: " limb_id
     if is_valid_integer "$limb_id"; then
@@ -69,7 +69,7 @@ while true; do
 done
 
 # Step 2.3: Ask the user for an integer that represents a number in the archery_range.id column
-python3 utilities.py query archery_range
+python3 utilities.py function display_archery_ranges
 while true; do
     read -rp "Please enter the ID from the 'archery_range' table: " range_id
     if is_valid_integer "$range_id"; then
@@ -81,7 +81,7 @@ while true; do
 done
 
 # Step 2.4: Ask the user for an integer that represents a number in the archery_arrow.id column
-python3 utilities.py query archery_arrow
+python3 utilities.py function display_archery_arrows
 while true; do
     read -rp "Please enter the ID from the 'archery_arrow' table: " arrow_id
     if is_valid_integer "$arrow_id"; then
@@ -93,7 +93,7 @@ while true; do
 done
 
 # Step 2.5: Ask the user for an integer that represents a number in the archery_sight.id column
-python3 utilities.py query archery_sight
+python3 utilities.py function display_archery_sights
 while true; do
     read -rp "Please enter the ID from the 'archery_sight' table: " sight_id
     if is_valid_integer "$sight_id"; then
@@ -105,7 +105,7 @@ while true; do
 done
 
 # Step 2.6: Ask the user for an integer that represents a number in the archery_target.id column
-python3 utilities.py query archery_target
+python3 utilities.py function display_archery_targets
 while true; do
     read -rp "Please enter the ID from the 'archery_target' table: " target_id
     if is_valid_integer "$target_id"; then
@@ -235,7 +235,7 @@ while true; do
 done
 
 # Step 2.13: Ask for arrow rest
-python3 utilities.py query archery_arrow_rest
+python3 utilities.py function display_archery_arrow_rests
 while true; do
     read -rp "Please enter the ID from the 'archery_arrow_rest' table: " archery_arrow_rest_id
     if is_valid_integer "$archery_arrow_rest_id"; then
@@ -247,7 +247,7 @@ while true; do
 done
 
 # Step 2.14: Ask for release aid
-python3 utilities.py query archery_release_aid
+python3 utilities.py function display_archery_release_aids
 while true; do
     read -rp "Please enter the ID from the 'archery_release_aid' table: " archery_release_aid_id
     if is_valid_integer "$archery_release_aid_id"; then
