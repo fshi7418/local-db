@@ -148,7 +148,8 @@ def insert_archery_round(
     )
     round_obj.construct_round(db_session)
     round_obj.insert_round(db_session)
-    print(f'inserted, average {round_obj.avg_shots}, id {round_obj.round_id}')
+    print(f'inserted, average {round_obj.avg_shots}, total {round_obj.total_score}')
+    print(f'id {round_obj.round_id}')
 
 
 if __name__ == '__main__':
