@@ -50,7 +50,7 @@ function insert_book_series() {
     read -p "Series name: " series_name
     read -p "Number of books: " num_books
     echo -----
-    python3 utilities.py query book_publisher
+    python3 utilities.py function display_book_publishers
     read -p "Enter Book Publisher ID: " publisher_id
 
     python3 add_book_series.py "$series_name" "$num_books" "$publisher_id"
@@ -82,33 +82,33 @@ function insert_book() {
 
     # Show current publishers, authors, translators, languages, series, formats
     echo "Choose a Publisher:"
-    python3 utilities.py query book_publisher
+    python3 utilities.py function display_book_publishers
     read -p "Publisher ID: " publisher_id
 
     echo "Choose authors (comma separated for multiple):"
-    python3 utilities.py query book_author
+    python3 utilities.py function display_book_authors
     read -p "Author IDs (comma separated for multiple): " author_ids
 
     echo "Choose translators (optional):"
-    python3 utilities.py query book_translator
+    python3 utilities.py function display_book_translators
     read -p "Translator IDs (comma separated, optional): " translator_ids
 
     echo "Choose editors (comma separated for multiple):"
-    python3 utilities.py query book_editor
+    python3 utilities.py function display_book_editors
     read -p "Editor IDs (comma separated for multiple): " editor_ids
 
     echo "Choose languages (comma separated for multiple):"
-    python3 utilities.py query book_language
+    python3 utilities.py function display_book_language
     read -p "Language IDs (comma separated for multiple): " language_ids
 
     echo "Choose a Series (optional):"
-    python3 utilities.py query book_series
+    python3 utilities.py function display_book_series
     read -p "Series ID (or leave blank): " series_id
 
     read -p "Series order (optional): " series_order
 
     echo "Choose a Format:"
-    python3 utilities.py query book_format
+    python3 utilities.py function display_book_format
     read -p "Format ID: " format_id
 
     read -p "Title: " title

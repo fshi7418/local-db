@@ -247,6 +247,72 @@ def display_archery_release_aids(db_session):
     query_and_display_stmt(db_session.bind, q)
 
 
+def display_book_publishers(db_session):
+    q = f'''
+        select id, name, datetime_entered
+        from book_publisher
+        order by name collate "zh-Hans-CN-x-icu"
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_book_authors(db_session):
+    q = f'''
+        select id, last_name, first_name, middle_name, nationality, datetime_entered
+        from book_author
+        order by last_name collate "zh-Hans-CN-x-icu", first_name collate "zh-Hans-CN-x-icu";
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_book_translators(db_session):
+    q = f'''
+        select
+            id, last_name, first_name, middle_name, datetime_entered
+        from book_translator
+        order by last_name collate "zh-Hans-CN-x-icu", first_name collate "zh-Hans-CN-x-icu";
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_book_editors(db_session):
+    q = f'''
+        select
+            id, last_name, first_name, middle_name, datetime_entered
+        from book_editor
+        order by last_name collate "zh-Hans-CN-x-icu", first_name collate "zh-Hans-CN-x-icu";
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_book_language(db_session):
+    q = f'''
+        select
+            id, name, code, datetime_entered
+        from book_language
+        order by name;
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_book_series(db_session):
+    q = f'''
+        select s.id as series_id, s.name as series_name, s.total_books, p.name as publisher_name, p.id as publisher_id
+        from book_series s, book_publisher p
+        where true
+        and s.publisher_id = p.id
+        order by p.name collate "zh-Hans-CN-x-icu"
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_book_format(db_session):
+    q = f'''
+        select * from book_format order by id
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
 if __name__ == '__main__':
     cmd_args = sys.argv
     cmd_type = cmd_args[1]
@@ -279,6 +345,20 @@ if __name__ == '__main__':
             display_archery_arrow_rests(postgres_session)
         elif function_name == 'display_archery_release_aids':
             display_archery_release_aids(postgres_session)
+        elif function_name == 'display_book_publishers':
+            display_book_publishers(postgres_session)
+        elif function_name == 'display_book_authors':
+            display_book_authors(postgres_session)
+        elif function_name == 'display_book_translators':
+            display_book_translators(postgres_session)
+        elif function_name == 'display_book_editors':
+            display_book_editors(postgres_session)
+        elif function_name == 'display_book_language':
+            display_book_language(postgres_session)
+        elif function_name == 'display_book_series':
+            display_book_series(postgres_session)
+        elif function_name == 'display_book_format':
+            display_book_format(postgres_session)
         else:
             raise NotImplementedError(f'{function_name} not implemented')
     else:
