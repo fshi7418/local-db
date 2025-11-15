@@ -229,3 +229,44 @@ class FirearmShot(Base):
     num_shots = Column(Integer, nullable=False)
 
     firearm_end = relationship(FirearmEnd, foreign_keys=firearm_end_id, back_populates='firearm_shots', cascade='all')
+
+
+class ShotgunChoke(Base):
+    __tablename__ = 'shotgun_choke'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    firearm_manufacturer_id = Column(Integer, ForeignKey('firearm_manufacturer.id'), nullable=True)
+    style = Column(String)
+    type = Column(String)
+    constriction = Column(String)
+    diametre_in = Column(Float)
+    name = Column(String)
+    datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
+
+
+class TrapRound(Base):
+    __tablename__ = 'trap_round'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    firearm_end_id = Column(
+        Integer, ForeignKey('firearm_end.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False,
+        index=True
+    )
+    distance_yard = Column(Float)
+    distance_m = Column(Float)
+    style = Column(String)
+    num_break = Column(SmallInteger)
+    starting_station = Column(SmallInteger)
+    shotgun_choke_id = Column(
+        Integer, ForeignKey('shotgun_choke.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True,
+        index=True
+    )
+
+
+class TrapShot(Base):
+    __tablename__ = 'trap_shot'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    trap_round_id = Column(
+        Integer, ForeignKey('trap_round.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False,
+        index=True
+    )
+    station = Column(Integer, nullable=False)
+    num_break = Column(SmallInteger, nullable=False)

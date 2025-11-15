@@ -6,12 +6,13 @@ from models import postgres_session
 # Import the necessary models
 from models.firearm import FirearmTrade, FirearmManufacturer, FirearmModel, FirearmAction, FirearmRestriction, \
     FirearmCartridge, FirearmDealer, FirearmVisit, FirearmEnd, FirearmShot, FirearmRange, FirearmTarget, FirearmSight, \
-    FirearmAmmunition
+    FirearmAmmunition, ShotgunChoke, TrapRound, TrapShot
 
 # Delete data from all imported tables
 tables_to_clear = [
-    FirearmVisit, FirearmEnd, FirearmShot, FirearmTrade, FirearmModel, FirearmSight, FirearmAmmunition,
-    FirearmManufacturer, FirearmAction, FirearmRestriction, FirearmCartridge, FirearmDealer, FirearmRange, FirearmTarget
+    TrapShot, TrapRound, FirearmVisit, FirearmEnd, FirearmShot, FirearmTrade, ShotgunChoke, FirearmModel, FirearmSight,
+    FirearmAmmunition, FirearmManufacturer, FirearmAction, FirearmRestriction, FirearmCartridge, FirearmDealer,
+    FirearmRange, FirearmTarget,
 ]
 
 for table in tables_to_clear:
@@ -25,6 +26,8 @@ print("Importing...")
 doc_path = r'/home/franks/Documents/Firearms'
 firearm_ods = os.path.join(doc_path, 'Data.ods')
 
+# parse the sheets
+# firearm generic
 firearm_manufacturer = pd.read_excel(
     firearm_ods, sheet_name='manufacturer', dtype={'phone': str, 'postal_code': str}, engine='odf'
 )
@@ -37,7 +40,6 @@ firearm_cartridge = pd.read_excel(firearm_ods, sheet_name='cartridge', engine='o
 firearm_dealer = pd.read_excel(firearm_ods, sheet_name='dealer', engine='odf', dtype={'postal_code': str})
 firearm_range = pd.read_excel(firearm_ods, sheet_name='range', engine='odf', dtype={'postal_code': str})
 firearm_target = pd.read_excel(firearm_ods, sheet_name='target', engine='odf')
-
 firearm_trade = pd.read_excel(firearm_ods, sheet_name='trade', engine='odf')
 firearm_visit = pd.read_excel(
     firearm_ods, sheet_name='visit', engine='odf', dtype={
@@ -46,6 +48,11 @@ firearm_visit = pd.read_excel(
 )
 firearm_end = pd.read_excel(firearm_ods, sheet_name='end', engine='odf')
 firearm_shot = pd.read_excel(firearm_ods, sheet_name='shot', engine='odf')
+
+# trap-specific
+shotgun_choke = pd.read_excel(firearm_ods, sheet_name='shotgun_choke', engine='odf')
+trap_round = pd.read_excel(firearm_ods, sheet_name='trap_round', engine='odf')
+trap_shot = pd.read_excel(firearm_ods, sheet_name='trap_shot', engine='odf')
 
 
 # Function to handle null values
@@ -56,46 +63,45 @@ def handle_null(value):
 # Load data into static tables
 for _, row in firearm_manufacturer.iterrows():
     postgres_session.add(FirearmManufacturer(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
 for _, row in firearm_dealer.iterrows():
     postgres_session.add(FirearmDealer(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
 for _, row in firearm_action.iterrows():
     postgres_session.add(FirearmAction(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
 for _, row in firearm_cartridge.iterrows():
     postgres_session.add(FirearmCartridge(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
 for _, row in firearm_restriction.iterrows():
     postgres_session.add(FirearmRestriction(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
 for _, row in firearm_range.iterrows():
     postgres_session.add(FirearmRange(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
 for _, row in firearm_target.iterrows():
     postgres_session.add(FirearmTarget(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
 postgres_session.commit()
 
+# tables dependent on static tables
 for _, row in firearm_model.iterrows():
     postgres_session.add(FirearmModel(**{k: handle_null(v) for k, v in row.to_dict().items()}))
 for _, row in firearm_sight.iterrows():
     postgres_session.add(FirearmSight(**{k: handle_null(v) for k, v in row.to_dict().items()}))
 for _, row in firearm_ammunition.iterrows():
     postgres_session.add(FirearmAmmunition(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
+for _, row in shotgun_choke.iterrows():
+    postgres_session.add(ShotgunChoke(**{k: handle_null(v) for k, v in row.to_dict().items()}))
 postgres_session.commit()
 
+# tables dependent on firearm-related tables
 for _, row in firearm_trade.iterrows():
     postgres_session.add(FirearmTrade(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
 for _, row in firearm_visit.iterrows():
     postgres_session.add(FirearmVisit(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
 for _, row in firearm_end.iterrows():
     postgres_session.add(FirearmEnd(**{k: handle_null(v) for k, v in row.to_dict().items()}))
-
 for _, row in firearm_shot.iterrows():
     postgres_session.add(FirearmShot(**{k: handle_null(v) for k, v in row.to_dict().items()}))
+postgres_session.commit()
 
+# tables dependent on visit tables
+for _, row in trap_round.iterrows():
+    postgres_session.add(TrapRound(**{k: handle_null(v) for k, v in row.to_dict().items()}))
+for _, row in trap_shot.iterrows():
+    postgres_session.add(TrapShot(**{k: handle_null(v) for k, v in row.to_dict().items()}))
 postgres_session.commit()
