@@ -46,7 +46,6 @@ class FirearmModel(Base):
     firearm_action_id = Column(
         Integer, ForeignKey('firearm_action.id'), nullable=False
     )
-    barrel_type = Column(String)
     barrel_length_in = Column(Float)
     barrel_length_cm = Column(Float)
     country_iso_origin = Column(String(2))
