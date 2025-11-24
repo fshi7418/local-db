@@ -111,6 +111,8 @@ class FirearmCartridge(Base):
     diameter_mm_land = Column(Float)
     diameter_in_bullet = Column(Float)
     diameter_mm_bullet = Column(Float)
+    shot_load_oz = Column(Float)
+    shot_load_g = Column(Float)
     shot_size = Column(String)
     shot_material = Column(String)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
