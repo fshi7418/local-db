@@ -46,6 +46,7 @@ def execute_any_q_text(db_engine, q_stmt):
     # Connect to the database
     connection = db_engine.raw_connection()
     cursor = connection.cursor()
+    column_names = []
     results = []
     try:
         # Execute the query

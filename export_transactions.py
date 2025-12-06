@@ -1,11 +1,10 @@
-from sqlalchemy import and_
 import os
 import sys
 import pandas as pd
 import datetime
 
+import utilities
 from models import postgres_session
-from models.transactions import ExpenseTransactions
 
 
 def export_transactions(year_start, month_start, year_end=None, month_end=None, path=None):
@@ -19,25 +18,35 @@ def export_transactions(year_start, month_start, year_end=None, month_end=None, 
     else:
         end_date = datetime.datetime(year_end, month_end + 1, 1) - datetime.timedelta(days=1)
     print(f'querying transactions between {start_date.strftime("%Y%m%d")} to {end_date.strftime("%Y%m%d")}')
-    transactions = postgres_session.query(
-        ExpenseTransactions
-    ).filter(
-        and_(
-            ExpenseTransactions.transaction_date >= start_date,
-            ExpenseTransactions.transaction_date <= end_date
-        )
-    ).all()
-    transactions_rows = []
+    txt = f'''
+        select 
+            t.transaction_date, t.amount, t.category, t.expense_source, t.expense_comment,
+            b.subcategory as budget_subcategory
+        from expense_transactions t
+        left join expense_budget b on t.expense_budget_id = b.id
+        where true
+        and transaction_date >= '{start_date.strftime("%Y-%m-%d")}'
+        and transaction_date <= '{end_date.strftime("%Y-%m-%d")}'
+        order by transaction_date asc, t.id asc
+    '''
+    print(txt)
+    cols, rows = utilities.execute_any_q_text(postgres_session.bind, txt)
+    transactions = [
+        {c: r[i] for i, c in enumerate(cols)} for r in rows
+    ]
+
+    transaction_rows = []
     for t in transactions:
         t_dict = {
-            'Date': t.transaction_date,
-            'Amount': t.amount,
-            'Category': t.category,
-            'Source': t.expense_source,
-            'Comment': t.expense_comment,
+            'Date': t['transaction_date'],
+            'Amount': t['amount'],
+            'Category': t['category'],
+            'Source': t['expense_source'],
+            'Comment': t['expense_comment'],
+            'Subcategory': t['budget_subcategory'],
         }
-        transactions_rows.append(t_dict)
-    transactions_df = pd.DataFrame(transactions_rows)
+        transaction_rows.append(t_dict)
+    transactions_df = pd.DataFrame(transaction_rows)
     filename = f'{start_date.strftime("%Y%m%d")}_to_{end_date.strftime("%Y%m%d")}_transactions.xlsx'
     if path:
         export_path = os.path.join(path, filename)
