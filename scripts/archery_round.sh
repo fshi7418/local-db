@@ -30,7 +30,7 @@ function is_valid_float() {
     fi
 }
 
-# Step 1: Ask for today's date in yyyymmdd format
+# Ask for today's date in yyyymmdd format
 while true; do
     read -rp "Please enter round date (yyyymmdd): " todays_date
     if is_valid_date "$todays_date"; then
@@ -42,33 +42,7 @@ done
 
 echo "You entered: $todays_date"
 
-# Step 2: Call the Python function to get data in several archery tables
-
-# Step 2.1: Ask the user for an integer that represents a number in the archery_riser.id column
-python3 utilities.py function display_archery_risers
-while true; do
-    read -rp "Please enter the ID from the 'archery_riser' table: " riser_id
-    if is_valid_integer "$riser_id"; then
-          echo "You selected archery_riser.id: $riser_id"
-          break
-    else
-        echo "Invalid input. Please enter a valid integer."
-    fi
-done
-
-# Step 2.2: Ask the user for an integer that represents a number in the archery_limb.id column
-python3 utilities.py function display_archery_limbs
-while true; do
-    read -rp "Please enter the ID from the 'archery_limb' table: " limb_id
-    if is_valid_integer "$limb_id"; then
-          echo "You selected archery_limb.id: $limb_id"
-          break
-    else
-        echo "Invalid input. Please enter a valid integer."
-    fi
-done
-
-# Step 2.3: Ask the user for an integer that represents a number in the archery_range.id column
+# Ask the user for an integer that represents a number in the archery_range.id column
 python3 utilities.py function display_archery_ranges
 while true; do
     read -rp "Please enter the ID from the 'archery_range' table: " range_id
@@ -80,7 +54,31 @@ while true; do
     fi
 done
 
-# Step 2.4: Ask the user for an integer that represents a number in the archery_arrow.id column
+# Ask the user for an integer that represents a number in the archery_riser.id column
+python3 utilities.py function display_archery_risers
+while true; do
+    read -rp "Please enter the ID from the 'archery_riser' table: " riser_id
+    if is_valid_integer "$riser_id"; then
+          echo "You selected archery_riser.id: $riser_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Ask the user for an integer that represents a number in the archery_limb.id column
+python3 utilities.py function display_archery_limbs
+while true; do
+    read -rp "Please enter the ID from the 'archery_limb' table: " limb_id
+    if is_valid_integer "$limb_id"; then
+          echo "You selected archery_limb.id: $limb_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Ask the user for an integer that represents a number in the archery_arrow.id column
 python3 utilities.py function display_archery_arrows
 while true; do
     read -rp "Please enter the ID from the 'archery_arrow' table: " arrow_id
@@ -92,7 +90,19 @@ while true; do
     fi
 done
 
-# Step 2.5: Ask the user for an integer that represents a number in the archery_sight.id column
+# Ask for arrow rest
+python3 utilities.py function display_archery_arrow_rests
+while true; do
+    read -rp "Please enter the ID from the 'archery_arrow_rest' table: " archery_arrow_rest_id
+    if is_valid_integer "$archery_arrow_rest_id"; then
+          echo "You selected archery_arrow_rest.id: $archery_arrow_rest_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Ask the user for an integer that represents a number in the archery_sight.id column
 python3 utilities.py function display_archery_sights
 while true; do
     read -rp "Please enter the ID from the 'archery_sight' table: " sight_id
@@ -104,7 +114,19 @@ while true; do
     fi
 done
 
-# Step 2.6: Ask the user for an integer that represents a number in the archery_target.id column
+# Ask for release aid
+python3 utilities.py function display_archery_release_aids
+while true; do
+    read -rp "Please enter the ID from the 'archery_release_aid' table: " archery_release_aid_id
+    if is_valid_integer "$archery_release_aid_id"; then
+          echo "You selected archery_release_aid.id: $archery_release_aid_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Ask the user for an integer that represents a number in the archery_target.id column
 python3 utilities.py function display_archery_targets
 while true; do
     read -rp "Please enter the ID from the 'archery_target' table: " target_id
@@ -116,7 +138,19 @@ while true; do
     fi
 done
 
-# Step 2.7: Ask the user for a float that represents distance in metres
+# Ask for scoring rule
+python3 utilities.py query archery_scoring_rule
+while true; do
+    read -rp "Please enter the ID from the 'archery_scoring_rule' table: " archery_scoring_rule_id
+    if is_valid_integer "$archery_scoring_rule_id"; then
+          echo "You selected archery_scoring_rule.id: $archery_scoring_rule_id"
+          break
+    else
+        echo "Invalid input. Please enter a valid integer."
+    fi
+done
+
+# Ask the user for a float that represents distance in metres
 while true; do
     read -rp "Please enter the distance in metres: " distance_m
     if is_valid_float "$distance_m"; then
@@ -127,7 +161,7 @@ while true; do
     fi
 done
 
-# Step 2.8: sight, stabiliser, clicker, distance
+# sight, stabiliser, clicker, distance
 read -r -p "sight (y/n)? " yn
 if [ "$yn" == "y" ]; then
     sight="True"
@@ -161,7 +195,7 @@ fi
 echo "sight, stabiliser, clicker: $sight, $stabiliser, $clicker"
 echo "known_distance, variable_distance: $known_distance, $variable_distance"
 
-# Step 2.9: Ask the user for an integer that represents draw weight in pounds
+# Ask the user for an integer that represents draw weight in pounds
 while true; do
     read -rp "Please enter draw weight in pounds (lb.): " draw_weight_lb
     if is_valid_integer "$draw_weight_lb"; then
@@ -172,7 +206,7 @@ while true; do
     fi
 done
 
-# Step 2.10: Ask the user for environment-related variables
+# Ask the user for environment-related variables
 while true; do
     read -rp "On a scale of 1 (worst) to 10 (ideal), your mental condition was: " env_mental
     if is_valid_integer "$env_mental"; then
@@ -198,7 +232,7 @@ else
     hunger="False"
 fi
 
-# Step 2.11: Ask for start and end time
+# Ask for start and end time
 while true; do
     read -rp "Please enter a start time in hhmm (or press Enter to skip): " start_hhmm
 
@@ -222,81 +256,55 @@ while true; do
     fi
 done
 
-# Step 2.12: Ask for scoring rule
-python3 utilities.py query archery_scoring_rule
-while true; do
-    read -rp "Please enter the ID from the 'archery_scoring_rule' table: " archery_scoring_rule_id
-    if is_valid_integer "$archery_scoring_rule_id"; then
-          echo "You selected archery_scoring_rule.id: $archery_scoring_rule_id"
-          break
-    else
-        echo "Invalid input. Please enter a valid integer."
-    fi
-done
+# Ask for user input in n rows of m inputs
+read -rp "Did you record scores (y/n)?: " scores
+if [ "$scores" == "n" ]; then
+    read -rp "How many shots were there?" num_shots
+    read -rp "How many ends were there?" num_ends
+    python3 add_archery_round.py "n" "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$todays_date" "$archery_scoring_rule_id" "$archery_arrow_rest_id" "$known_distance" "$variable_distance" "$archery_release_aid_id" "$num_ends" "$num_shots"
+else
+    echo "Please enter rows of inputs. Each row should contain integers or 'x'."
+    echo "Separate inputs with spaces. Press Enter after each row."
+    echo "If you are entering the last end, press enter, type 'done', then press enter again"
 
-# Step 2.13: Ask for arrow rest
-python3 utilities.py function display_archery_arrow_rests
-while true; do
-    read -rp "Please enter the ID from the 'archery_arrow_rest' table: " archery_arrow_rest_id
-    if is_valid_integer "$archery_arrow_rest_id"; then
-          echo "You selected archery_arrow_rest.id: $archery_arrow_rest_id"
-          break
-    else
-        echo "Invalid input. Please enter a valid integer."
-    fi
-done
+    # Initialize an empty array to store the rows
+    rows=()
 
-# Step 2.14: Ask for release aid
-python3 utilities.py function display_archery_release_aids
-while true; do
-    read -rp "Please enter the ID from the 'archery_release_aid' table: " archery_release_aid_id
-    if is_valid_integer "$archery_release_aid_id"; then
-          echo "You selected archery_release_aid.id: $archery_release_aid_id"
-          break
-    else
-        echo "Invalid input. Please enter a valid integer."
-    fi
-done
+    # Read input row by row
+    while true; do
+        # Prompt the user for input
+        read -rp "end scores separated by space:" row
 
-# Step 3: Ask for user input in n rows of m inputs
-echo "Please enter rows of inputs. Each row should contain integers or 'x'."
-echo "Separate inputs with spaces. Press Enter after each row."
-echo "If you are entering the last end, press enter, type 'done', then press enter again"
-
-# Initialize an empty array to store the rows
-rows=()
-
-# Read input row by row
-while true; do
-    # Prompt the user for input
-    read -rp "end scores separated by space:" row
-
-    # If the user presses Enter without input, break the loop
-    if [[ "$row" = "done" ]]; then
-        break
-    fi
-
-    # Process each element in the row
-    formatted_row=""
-    for element in $row; do
-        # If the element is 'x' or 'X', treat it as a string and add quotes
-        if [[ "$element" == "x" || "$element" == "X" ]]; then
-            formatted_row+="'$element', "
-        else
-            # Otherwise, assume it's an integer and add it as is
-            formatted_row+="$element, "
+        # If the user presses Enter without input, break the loop
+        if [[ "$row" = "done" ]]; then
+            break
         fi
+
+        # Process each element in the row
+        formatted_row=""
+        for element in $row; do
+            # If the element is 'x' or 'X', treat it as a string and add quotes
+            if [[ "$element" == "x" || "$element" == "X" ]]; then
+                formatted_row+="'$element', "
+            else
+                # Otherwise, assume it's an integer and add it as is
+                formatted_row+="$element, "
+            fi
+        done
+
+        # Remove the trailing comma and space
+        formatted_row=${formatted_row%, }
+
+        # Append the formatted row to the rows array
+        rows+=("[$formatted_row]")
     done
 
-    # Remove the trailing comma and space
-    formatted_row=${formatted_row%, }
+    # Join the rows into a single string representing a list of lists
+    input_string=$(IFS=,; echo "[${rows[*]}]")
 
-    # Append the formatted row to the rows array
-    rows+=("[$formatted_row]")
-done
+    # Pass the input string to the Python script
+    python3 add_archery_round.py "y" "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$todays_date" "$archery_scoring_rule_id" "$archery_arrow_rest_id" "$known_distance" "$variable_distance" "$archery_release_aid_id" "$input_string"
+fi
 
-# Join the rows into a single string representing a list of lists
-input_string=$(IFS=,; echo "[${rows[*]}]")
 
-# Pass the input string to the Python script
-python3 add_archery_round.py "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$input_string" "$todays_date" "$archery_scoring_rule_id" "$archery_arrow_rest_id" "$known_distance" "$variable_distance" "$archery_release_aid_id"
+
