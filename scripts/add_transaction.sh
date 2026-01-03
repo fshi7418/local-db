@@ -14,9 +14,10 @@ read -r -p "Please enter the amount: " e_amount
 < transaction_configs.py grep '.*=.*# category$'
 read -r -p "Please enter the expense category e.g. FOOD " e_category
 < transaction_configs.py grep '.*=.*[^(# category)]$'
+
 read -r -p "Please enter the expense source e.g. CMB " e_source
-#python3 utilities.py query expense_budget
-python3 utilities.py function expense_categories 2025
+year="${expense_date:0:4}"
+python3 utilities.py function expense_categories "$year"
 read -r -p "Please enter budget id if applicable: " e_budget_id
 read -r -p "Please enter the expense comment: " e_comment
 echo "$expense_date" "$e_amount" "$e_category" "$e_source" "$e_comment" "$e_budget_id"
