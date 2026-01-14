@@ -15,7 +15,7 @@ class Round:
         self, round_date_, range_id_, distance_m_, target_id_, sight_, clicker_, stabilisation_, riser_id_, limb_id_,
         score_list_, hunger_, scoring_rule_id_, start_time=None, end_time=None, draw_weight_lb_=None, arrow_id_=None,
         arrow_rest_id_=None, condition_mental=None, condition_env=None, sight_id_=None, release_aid_id_=None,
-        known_distance_=None, variable_distance_=None, num_shots_=None, num_ends_=None
+        known_distance_=None, variable_distance_=None, num_shots_=None, num_ends_=None, seconds_per_arrow_=None
     ):
         # direct data
         self.round_date = round_date_
@@ -41,6 +41,7 @@ class Round:
         self.sight_id = sight_id_
         self.conditional_mental = condition_mental
         self.conditional_env = condition_env
+        self.seconds_per_arrow = seconds_per_arrow_
 
         # derived data
         self.round_obj = None
@@ -91,7 +92,7 @@ class Round:
             start_time=self.start_time if self.start_time else null(),
             end_time=self.end_time if self.end_time else null(),
             days_since_last_practice=self.days_since_last,
-            ends=end_obj_list,
+            ends=end_obj_list, seconds_per_arrow=self.seconds_per_arrow
         )
 
     def construct_round(self, db_session):
@@ -147,7 +148,7 @@ class Round:
             start_time=self.start_time if self.start_time else null(),
             end_time=self.end_time if self.end_time else null(),
             days_since_last_practice=self.days_since_last,
-            ends=end_obj_list,
+            ends=end_obj_list, seconds_per_arrow=self.seconds_per_arrow
         )
 
     def get_days_since_last(self, db_session):
@@ -177,7 +178,8 @@ def insert_archery_round_unscored(
         hunger_, scoring_rule_id_, start_time=start_time, end_time=end_time, known_distance_=known_distance_,
         variable_distance_=variable_distance_, draw_weight_lb_=draw_weight_lb_, arrow_id_=arrow_id_,
         arrow_rest_id_=arrow_rest_id_, sight_id_=sight_id_, release_aid_id_=release_aid_id_,
-        condition_mental=condition_mental, condition_env=condition_env, num_shots_=num_shots, num_ends_=num_ends
+        condition_mental=condition_mental, condition_env=condition_env, num_shots_=num_shots, num_ends_=num_ends,
+        seconds_per_arrow_=None
     )
     round_obj.construct_unscored_round(db_session)
     round_obj.insert_round(db_session)
@@ -188,14 +190,14 @@ def insert_archery_round_scored(
     db_session, round_date_, range_id_, distance_m_, target_id_, sight_, clicker_, stabilisation_, riser_id_, limb_id_,
     score_list, hunger_, scoring_rule_id_, start_time=None, end_time=None, draw_weight_lb_=None, arrow_id_=None,
     arrow_rest_id_=None, release_aid_id_=None, sight_id_=None, known_distance_=True, variable_distance_=False,
-    condition_mental=None, condition_env=None
+    condition_mental=None, condition_env=None, seconds_per_arrow=None
 ):
     round_obj = Round(
         round_date_, range_id_, distance_m_, target_id_, sight_, clicker_, stabilisation_, riser_id_, limb_id_,
         score_list, hunger_, scoring_rule_id_, start_time=start_time, end_time=end_time, known_distance_=known_distance_,
         variable_distance_=variable_distance_, draw_weight_lb_=draw_weight_lb_, arrow_id_=arrow_id_,
         arrow_rest_id_=arrow_rest_id_, sight_id_=sight_id_, release_aid_id_=release_aid_id_,
-        condition_mental=condition_mental, condition_env=condition_env
+        condition_mental=condition_mental, condition_env=condition_env, seconds_per_arrow_=seconds_per_arrow
     )
     round_obj.construct_round(db_session)
     round_obj.insert_round(db_session)
@@ -231,13 +233,14 @@ if __name__ == '__main__':
     release_aid_id = int(sys.argv[23])
 
     if scored == 'y':
-        scores_list = ast.literal_eval(sys.argv[24])
+        seconds_per_arrow = float(sys.argv[24])
+        scores_list = ast.literal_eval(sys.argv[25])
         insert_archery_round_scored(
             postgres_session, round_date, range_id, distance_m, target_id, sight, clicker, stabilisation, riser_id, limb_id,
             scores_list, hunger, scoring_rule_id, start_time=start_hhmm, end_time=end_hhmm, draw_weight_lb_=draw_weight_lb,
             arrow_id_=arrow_id, arrow_rest_id_=arrow_rest_id, release_aid_id_=release_aid_id, condition_mental=env_mental,
             condition_env=env_physical, sight_id_=sight_id, known_distance_=known_distance,
-            variable_distance_=variable_distance
+            variable_distance_=variable_distance, seconds_per_arrow=seconds_per_arrow
         )
     else:
         scores_list = []
@@ -245,8 +248,8 @@ if __name__ == '__main__':
         num_shots = int(sys.argv[25])
         insert_archery_round_unscored(
             postgres_session, round_date, range_id, distance_m, target_id, sight, clicker, stabilisation, riser_id, limb_id,
-            num_shots, num_ends, hunger, scoring_rule_id, start_time=start_hhmm, end_time=end_hhmm, 
-            draw_weight_lb_=draw_weight_lb, arrow_id_=arrow_id, arrow_rest_id_=arrow_rest_id, release_aid_id_=release_aid_id, 
+            num_shots, num_ends, hunger, scoring_rule_id, start_time=start_hhmm, end_time=end_hhmm,
+            draw_weight_lb_=draw_weight_lb, arrow_id_=arrow_id, arrow_rest_id_=arrow_rest_id, release_aid_id_=release_aid_id,
             condition_mental=env_mental, condition_env=env_physical, sight_id_=sight_id, known_distance_=known_distance,
             variable_distance_=variable_distance
         )

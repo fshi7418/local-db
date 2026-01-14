@@ -192,8 +192,31 @@ if [ "$yn" == "y" ]; then
 else
     variable_distance="False"
 fi
+read -r -p "was it timed (y/n)? " yn
+# whether the ends were timed
+if [ "$yn" == "y" ]; then
+    timed="True"
+else
+    timed="False"
+fi
+if [ "$timed" == "True" ]; then
+    while true; do
+        read -rp "Please enter number of seconds per arrow (or press Enter to skip): " seconds_per_arrow
+
+        # Check if the input is a floating number
+        if awk "BEGIN {exit !($seconds_per_arrow > 0)}" 2>/dev/null; then
+            break
+        else
+            echo "Invalid input. Please a non-zero positive number or press Enter to skip."
+        fi
+    done
+else
+    seconds_per_arrow=""
+fi
+
 echo "sight, stabiliser, clicker: $sight, $stabiliser, $clicker"
 echo "known_distance, variable_distance: $known_distance, $variable_distance"
+echo "seconds per arrow: $seconds_per_arrow"
 
 # Ask the user for an integer that represents draw weight in pounds
 while true; do
@@ -303,7 +326,7 @@ else
     input_string=$(IFS=,; echo "[${rows[*]}]")
 
     # Pass the input string to the Python script
-    python3 add_archery_round.py "y" "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$todays_date" "$archery_scoring_rule_id" "$archery_arrow_rest_id" "$known_distance" "$variable_distance" "$archery_release_aid_id" "$input_string"
+    python3 add_archery_round.py "y" "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$todays_date" "$archery_scoring_rule_id" "$archery_arrow_rest_id" "$known_distance" "$variable_distance" "$archery_release_aid_id" "$seconds_per_arrow" "$input_string"
 fi
 
 

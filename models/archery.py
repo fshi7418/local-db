@@ -42,6 +42,7 @@ class Rounds(Base):
     remark = Column(String)
     variable_distance = Column(Boolean, nullable=True)
     known_distance = Column(Boolean, nullable=True)
+    seconds_per_arrow = Column(Float, nullable=True)
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
     ends = relationship('Ends', back_populates='archery_round', cascade='all, delete-orphan', lazy='joined')
