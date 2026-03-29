@@ -233,7 +233,10 @@ if __name__ == '__main__':
     release_aid_id = int(sys.argv[23])
 
     if scored == 'y':
-        seconds_per_arrow = float(sys.argv[24])
+        if sys.argv[24] == '':
+            seconds_per_arrow = None
+        else:
+            seconds_per_arrow = float(sys.argv[24])
         scores_list = ast.literal_eval(sys.argv[25])
         insert_archery_round_scored(
             postgres_session, round_date, range_id, distance_m, target_id, sight, clicker, stabilisation, riser_id, limb_id,

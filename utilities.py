@@ -7,6 +7,7 @@ from models.archery import ArcheryRange, ArcheryTarget, ArcheryBowType, ArcheryM
     ArcheryRiser, ArcheryArrow, Shots, Ends, Rounds, ArcherySight, ArcheryScoringRule, ArcheryArrowRest, \
     ArcheryReleaseAid
 from models.books import BookPublisher, BookAuthor, BookTranslator, BookLanguage, BookSeries, BookEditor, BookFormat, Book
+from models.firearm import FirearmManufacturer, FirearmModel, FirearmSight, FirearmAction, FirearmRestriction, FirearmCartridge
 
 str_to_model = {
     'archery_range': ArcheryRange,
@@ -314,6 +315,63 @@ def display_book_format(db_session):
     query_and_display_stmt(db_session.bind, q)
 
 
+def display_firearm_manufacturers(db_session):
+    q = f'''
+        select id, name, country_iso, address_city, address_country, datetime_entered
+        from firearm_manufacturer
+        order by name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_firearm_actions(db_session):
+    q = f'''
+        select id, name
+        from firearm_action
+        order by name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_firearm_restrictions(db_session):
+    q = f'''
+        select id, restriction_type
+        from firearm_restriction
+        order by id
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_firearm_cartridges(db_session):
+    q = f'''
+        select id, name, shot_size, shot_material, shot_load_oz, shot_load_g
+        from firearm_cartridge
+        order by name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_firearm_models(db_session):
+    q = f'''
+        select m.id, m.name, mfr.name as manufacturer, a.name as action
+        from firearm_model m
+        join firearm_manufacturer mfr on m.firearm_manufacturer_id = mfr.id
+        join firearm_action a on m.firearm_action_id = a.id
+        order by mfr.name, m.name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_firearm_sights(db_session):
+    q = f'''
+        select s.id, s.name, s.type, mfr.name as manufacturer, s.max_magnification
+        from firearm_sight s
+        left join firearm_manufacturer mfr on s.firearm_manufacturer_id = mfr.id
+        order by s.name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
 if __name__ == '__main__':
     cmd_args = sys.argv
     cmd_type = cmd_args[1]
@@ -360,6 +418,18 @@ if __name__ == '__main__':
             display_book_series(postgres_session)
         elif function_name == 'display_book_format':
             display_book_format(postgres_session)
+        elif function_name == 'display_firearm_manufacturers':
+            display_firearm_manufacturers(postgres_session)
+        elif function_name == 'display_firearm_actions':
+            display_firearm_actions(postgres_session)
+        elif function_name == 'display_firearm_restrictions':
+            display_firearm_restrictions(postgres_session)
+        elif function_name == 'display_firearm_cartridges':
+            display_firearm_cartridges(postgres_session)
+        elif function_name == 'display_firearm_models':
+            display_firearm_models(postgres_session)
+        elif function_name == 'display_firearm_sights':
+            display_firearm_sights(postgres_session)
         else:
             raise NotImplementedError(f'{function_name} not implemented')
     else:
