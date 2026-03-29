@@ -284,7 +284,7 @@ read -rp "Did you record scores (y/n)?: " scores
 if [ "$scores" == "n" ]; then
     read -rp "How many shots were there?" num_shots
     read -rp "How many ends were there?" num_ends
-    python3 add_archery_round.py "n" "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$todays_date" "$archery_scoring_rule_id" "$archery_arrow_rest_id" "$known_distance" "$variable_distance" "$archery_release_aid_id" "$num_ends" "$num_shots"
+    python3 script_modules/add_archery_round.py "n" "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$todays_date" "$archery_scoring_rule_id" "$archery_arrow_rest_id" "$known_distance" "$variable_distance" "$archery_release_aid_id" "$num_ends" "$num_shots"
 else
     echo "Please enter rows of inputs. Each row should contain integers or 'x'."
     echo "Separate inputs with spaces. Press Enter after each row."
@@ -326,7 +326,7 @@ else
     input_string=$(IFS=,; echo "[${rows[*]}]")
 
     # Pass the input string to the Python script
-    python3 add_archery_round.py "y" "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$todays_date" "$archery_scoring_rule_id" "$archery_arrow_rest_id" "$known_distance" "$variable_distance" "$archery_release_aid_id" "$seconds_per_arrow" "$input_string"
+    python3 script_modules/add_archery_round.py "y" "$riser_id" "$limb_id" "$range_id" "$arrow_id" "$sight_id" "$target_id" "$distance_m" "$sight" "$stabiliser" "$clicker" "$draw_weight_lb" "$env_mental" "$env_physical" "$hunger" "$start_hhmm" "$end_hhmm" "$todays_date" "$archery_scoring_rule_id" "$archery_arrow_rest_id" "$known_distance" "$variable_distance" "$archery_release_aid_id" "$seconds_per_arrow" "$input_string"
 fi
 
 

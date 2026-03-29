@@ -21,5 +21,5 @@ python3 utilities.py function expense_categories "$year"
 read -r -p "Please enter budget id if applicable: " e_budget_id
 read -r -p "Please enter the expense comment: " e_comment
 echo "$expense_date" "$e_amount" "$e_category" "$e_source" "$e_comment" "$e_budget_id"
-python3 add_transaction.py "$expense_date" "$e_amount" "$e_category" "$e_source" "$e_comment" "$e_budget_id"
+python3 script_modules/add_transaction.py "$expense_date" "$e_amount" "$e_category" "$e_source" "$e_comment" "$e_budget_id"
 deactivate

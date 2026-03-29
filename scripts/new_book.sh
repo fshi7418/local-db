@@ -34,7 +34,7 @@ function insert_book_author() {
     read -p "Death day (DD, optional): " death_day
     read -p "Nationality (optional, ISO 3166-1 alpha-2 code): " nationality
 
-    python3 add_book_author.py "$first_name" "$last_name" "$middle_name" "$birth_year" "$birth_month" "$birth_day" "$death_year" "$death_month" "$death_day" "$nationality"
+    python3 script_modules/add_book_author.py "$first_name" "$last_name" "$middle_name" "$birth_year" "$birth_month" "$birth_day" "$death_year" "$death_month" "$death_day" "$nationality"
 }
 
 # --- Insert Book Publisher ---
@@ -42,7 +42,7 @@ function insert_book_publisher() {
     echo "Insert a new Book Publisher"
     read -p "Publisher name: " publisher_name
 
-    python3 add_book_publisher.py "$publisher_name"
+    python3 script_modules/add_book_publisher.py "$publisher_name"
 }
 
 function insert_book_series() {
@@ -53,7 +53,7 @@ function insert_book_series() {
     python3 utilities.py function display_book_publishers
     read -p "Enter Book Publisher ID: " publisher_id
 
-    python3 add_book_series.py "$series_name" "$num_books" "$publisher_id"
+    python3 script_modules/add_book_series.py "$series_name" "$num_books" "$publisher_id"
 }
 
 # --- Insert Book Translator ---
@@ -63,7 +63,7 @@ function insert_book_translator() {
     read -p "Last name: " last_name
     read -p "Middle name (optional): " middle_name
 
-    python3 add_book_translator.py "$first_name" "$last_name" "$middle_name"
+    python3 script_modules/add_book_translator.py "$first_name" "$last_name" "$middle_name"
 }
 
 # --- Insert Book Editor ---
@@ -73,7 +73,7 @@ function insert_book_editor() {
     read -p "Last name (optional): " last_name
     read -p "Middle name (optional): " middle_name
 
-    python3 add_book_editor.py "$first_name" "$last_name" "$middle_name"
+    python3 script_modules/add_book_editor.py "$first_name" "$last_name" "$middle_name"
 }
 
 # --- Insert Book ---
@@ -122,7 +122,7 @@ function insert_book() {
     read -p "Page count (optional): " page_count
     read -p "Date read (YYYY-MM-DD, optional): " date_read
 
-    python3 add_book.py \
+    python3 script_modules/add_book.py \
         "$title" "$subtitle" "$isbn" "$isbn13" "$publication_year" "$publication_month" "$publication_day" \
         "$page_count" "$date_read" "$series_order" "$publisher_id" "$series_id" "$format_id" "$author_ids" \
         "$language_ids" "$translator_ids" "$editor_ids" "$edition"

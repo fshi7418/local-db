@@ -57,7 +57,7 @@ function insert_firearm_manufacturer() {
     read -p "Phone (optional): " phone
     read -p "Phone country code (optional): " phone_country_code
 
-    python3 add_firearm_manufacturer.py \
+    python3 script_modules/add_firearm_manufacturer.py \
         "$name" "$country_iso" "$address_street" "$address_city" "$address_province" \
         "$address_country" "$postal_code" "$website" "$phone" "$phone_country_code"
 }
@@ -125,7 +125,7 @@ function insert_firearm_model() {
         read -p "Capacity 7 (optional): " capacity7
     fi
 
-    python3 add_firearm_model.py \
+    python3 script_modules/add_firearm_model.py \
         "$name" "$manufacturer_id" "$action_id" "$restriction_id" "$cartridge_id1" \
         "$barrel_length_in" "$barrel_length_cm" "$country_iso_origin" \
         "$weight_lb" "$weight_kg" "$rear_sight" "$front_sight" "$capacity1" \
@@ -147,7 +147,7 @@ function insert_firearm_sight() {
 
     read -p "Max magnification (optional): " max_magnification
 
-    python3 add_firearm_sight.py "$name" "$type" "$manufacturer_id" "$max_magnification"
+    python3 script_modules/add_firearm_sight.py "$name" "$type" "$manufacturer_id" "$max_magnification"
 }
 
 # --- Main Menu ---
