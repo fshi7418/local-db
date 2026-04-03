@@ -10,8 +10,8 @@ if [ "$end_date" = "y" ]
 then
     read -r -p "Year of end date? " year_end
     read -r -p "Month of end date? " month_end
-    python3 ~/Repos/local-db/export_transactions.py "$year_start" "$month_start" "$year_end" "$month_end" "$current_dir"
+    python3 script_modules/export_transactions.py "$year_start" "$month_start" "$year_end" "$month_end" "$current_dir"
 else
-    python3 ~/Repos/local-db/export_transactions.py "$year_start" "$month_start" "$current_dir"
+    python3 script_modules/export_transactions.py "$year_start" "$month_start" "$current_dir"
 fi
 deactivate
