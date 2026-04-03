@@ -61,7 +61,17 @@ print(a.firearm_cartridge_id if a and a.firearm_cartridge_id else '')
     read -p "Quantity (optional): " quantity
 
     # Step 8: Distance
-    read -p "Distance in metres (optional): " distance_m
+    read -p "Distance unit (yd/m): " distance_unit
+    if [ "$distance_unit" = "yd" ]; then
+        read -p "Distance in yards (optional): " distance_input
+        if [ -z "$distance_input" ]; then
+            distance_m=""
+        else
+            distance_m=$(echo "$distance_input * 0.9144" | bc -l)
+        fi
+    else
+        read -p "Distance in metres (optional): " distance_m
+    fi
 
     # Step 9: Target
     python3 utilities.py function display_firearm_targets
@@ -83,11 +93,50 @@ print(a.firearm_cartridge_id if a and a.firearm_cartridge_id else '')
     # Step 14: Stance
     read -p "Stance (standing/benchrest/from_cover/retention/sitting/walking): " stance
 
+    # Trap round
+    read -p "Is this a trap round? (y/n): " is_trap
+    trap_round_json="null"
+    if [ "$is_trap" = "y" ]; then
+        read -p "Distance unit (yd/m): " trap_distance_unit
+        if [ "$trap_distance_unit" = "yd" ]; then
+            read -p "Distance in yards: " trap_distance_yard
+            if [ -z "$trap_distance_yard" ]; then
+                trap_distance_m=""
+            else
+                trap_distance_m=$(echo "$trap_distance_yard * 0.9144" | bc -l)
+            fi
+        else
+            read -p "Distance in metres: " trap_distance_m
+            if [ -z "$trap_distance_m" ]; then
+                trap_distance_yard=""
+            else
+                trap_distance_yard=$(echo "$trap_distance_m * 1.09361" | bc -l)
+            fi
+        fi
+        while true; do
+            read -p "Style (olympic/ata): " trap_style_input
+            if [ "$trap_style_input" = "olympic" ]; then
+                trap_style="Olympic"
+                break
+            elif [ "$trap_style_input" = "ata" ]; then
+                trap_style="North American"
+                break
+            else
+                echo "Invalid style. Please enter 'olympic' or 'ata'."
+            fi
+        done
+        read -p "Number of breaks (optional): " trap_num_break
+        read -p "Starting station (optional): " trap_starting_station
+        python3 utilities.py function display_shotgun_choke
+        read -p "Shotgun choke ID (optional): " trap_shotgun_choke_id
+        trap_round_json="{\"distance_yard\":\"$trap_distance_yard\",\"distance_m\":\"$trap_distance_m\",\"style\":\"$trap_style\",\"num_break\":\"$trap_num_break\",\"starting_station\":\"$trap_starting_station\",\"shotgun_choke_id\":\"$trap_shotgun_choke_id\"}"
+    fi
+
     # Build JSON for this end
     if [ $end_i -gt 1 ]; then
         ends_json+=","
     fi
-    ends_json+="{\"firearm_model_id\":\"$firearm_model_id\",\"firearm_cartridge_id\":\"$firearm_cartridge_id\",\"firearm_ammunition_id\":\"$firearm_ammunition_id\",\"quantity\":\"$quantity\",\"distance_m\":\"$distance_m\",\"firearm_target_id\":\"$firearm_target_id\",\"shots_scored\":\"$shots_scored\",\"points_of_stabilisation\":\"$points_of_stabilisation\",\"supporting_hands\":\"$supporting_hands\",\"firearm_sight_id\":\"$firearm_sight_id\",\"stance\":\"$stance\"}"
+    ends_json+="{\"firearm_model_id\":\"$firearm_model_id\",\"firearm_cartridge_id\":\"$firearm_cartridge_id\",\"firearm_ammunition_id\":\"$firearm_ammunition_id\",\"quantity\":\"$quantity\",\"distance_m\":\"$distance_m\",\"firearm_target_id\":\"$firearm_target_id\",\"shots_scored\":\"$shots_scored\",\"points_of_stabilisation\":\"$points_of_stabilisation\",\"supporting_hands\":\"$supporting_hands\",\"firearm_sight_id\":\"$firearm_sight_id\",\"stance\":\"$stance\",\"trap_round\":$trap_round_json}"
 
     end_i=$((end_i + 1))
 

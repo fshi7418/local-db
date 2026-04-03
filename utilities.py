@@ -404,6 +404,16 @@ def display_firearm_targets(db_session):
     query_and_display_stmt(db_session.bind, q)
 
 
+def display_shotgun_choke(db_session):
+    q = f'''
+        select c.id, c.name, c.style, c.type, c.constriction, c.diametre_in, mfr.name as manufacturer
+        from shotgun_choke c
+        left join firearm_manufacturer mfr on c.firearm_manufacturer_id = mfr.id
+        order by mfr.name, c.style, c.name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
 if __name__ == '__main__':
     cmd_args = sys.argv
     cmd_type = cmd_args[1]
@@ -468,6 +478,8 @@ if __name__ == '__main__':
             display_firearm_ammunition(postgres_session)
         elif function_name == 'display_firearm_targets':
             display_firearm_targets(postgres_session)
+        elif function_name == 'display_shotgun_choke':
+            display_shotgun_choke(postgres_session)
         else:
             raise NotImplementedError(f'{function_name} not implemented')
     else:
