@@ -129,7 +129,25 @@ print(a.firearm_cartridge_id if a and a.firearm_cartridge_id else '')
         read -p "Starting station (optional): " trap_starting_station
         python3 utilities.py function display_shotgun_choke
         read -p "Shotgun choke ID (optional): " trap_shotgun_choke_id
-        trap_round_json="{\"distance_yard\":\"$trap_distance_yard\",\"distance_m\":\"$trap_distance_m\",\"style\":\"$trap_style\",\"num_break\":\"$trap_num_break\",\"starting_station\":\"$trap_starting_station\",\"shotgun_choke_id\":\"$trap_shotgun_choke_id\"}"
+        read -p "Do you know the number of breaks by station? (y/n): " knows_station_breaks
+        trap_shots_json="null"
+        if [ "$knows_station_breaks" = "y" ]; then
+            trap_shots_json="["
+            first_shot=true
+            for station in 1 2 3 4 5; do
+                read -p "Breaks at station $station (optional): " station_breaks
+                if [ -n "$station_breaks" ]; then
+                    if [ "$first_shot" = "true" ]; then
+                        first_shot=false
+                    else
+                        trap_shots_json+=","
+                    fi
+                    trap_shots_json+="{\"station\":$station,\"num_break\":$station_breaks}"
+                fi
+            done
+            trap_shots_json+="]"
+        fi
+        trap_round_json="{\"distance_yard\":\"$trap_distance_yard\",\"distance_m\":\"$trap_distance_m\",\"style\":\"$trap_style\",\"num_break\":\"$trap_num_break\",\"starting_station\":\"$trap_starting_station\",\"shotgun_choke_id\":\"$trap_shotgun_choke_id\",\"trap_shots\":$trap_shots_json}"
     fi
 
     # Build JSON for this end

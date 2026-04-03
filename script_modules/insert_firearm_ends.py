@@ -1,7 +1,7 @@
 import sys
 import json
 from models import postgres_session
-from models.firearm import FirearmEnd, TrapRound
+from models.firearm import FirearmEnd, TrapRound, TrapShot
 
 
 def int_or_none(val):
@@ -45,7 +45,7 @@ def insert_firearm_ends(visit_id_, ends_json_str):
 
             trap_data = end.get('trap_round')
             if trap_data and isinstance(trap_data, dict):
-                postgres_session.add(TrapRound(
+                trap_round_obj = TrapRound(
                     firearm_end_id=end_obj.id,
                     distance_yard=float_or_none(trap_data.get('distance_yard')),
                     distance_m=float_or_none(trap_data.get('distance_m')),
@@ -53,7 +53,18 @@ def insert_firearm_ends(visit_id_, ends_json_str):
                     num_break=int_or_none(trap_data.get('num_break')),
                     starting_station=int_or_none(trap_data.get('starting_station')),
                     shotgun_choke_id=int_or_none(trap_data.get('shotgun_choke_id')),
-                ))
+                )
+                postgres_session.add(trap_round_obj)
+                postgres_session.flush()
+
+                trap_shots = trap_data.get('trap_shots')
+                if trap_shots and isinstance(trap_shots, list):
+                    for shot in trap_shots:
+                        postgres_session.add(TrapShot(
+                            trap_round_id=trap_round_obj.id,
+                            station=int(shot['station']),
+                            num_break=int(shot['num_break']),
+                        ))
 
         postgres_session.commit()
         print(f"Inserted {len(ends_data)} end(s) for visit {visit_id_}")
