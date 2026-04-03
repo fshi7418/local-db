@@ -353,10 +353,11 @@ def display_firearm_cartridges(db_session):
 
 def display_firearm_models(db_session):
     q = f'''
-        select m.id, m.name, mfr.name as manufacturer, a.name as action
+        select m.id, m.name, mfr.name as manufacturer, a.name as action, r.restriction_type
         from firearm_model m
         join firearm_manufacturer mfr on m.firearm_manufacturer_id = mfr.id
         join firearm_action a on m.firearm_action_id = a.id
+        join firearm_restriction r on m.firearm_restriction_id = r.id
         order by mfr.name, m.name
     '''
     query_and_display_stmt(db_session.bind, q)
@@ -368,6 +369,37 @@ def display_firearm_sights(db_session):
         from firearm_sight s
         left join firearm_manufacturer mfr on s.firearm_manufacturer_id = mfr.id
         order by s.name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_firearm_ranges(db_session):
+    q = f'''
+        select id, name, address_city, address_province, address_country
+        from firearm_range
+        order by name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_firearm_ammunition(db_session):
+    q = f'''
+        select
+            a.id as ammunition_id, a.name as ammunition_name, mfr.name as manufacturer,
+            c.id as cartridge_id, c.name as cartridge_name, c.shot_size, c.shot_load_oz, c.shot_load_g, c.shot_material
+        from firearm_ammunition a
+        left join firearm_manufacturer mfr on a.firearm_manufacturer_id = mfr.id
+        left join firearm_cartridge c on a.firearm_cartridge_id = c.id
+        order by mfr.name, a.name
+    '''
+    query_and_display_stmt(db_session.bind, q)
+
+
+def display_firearm_targets(db_session):
+    q = f'''
+        select id, type, target_name, minimum_score, full_size_cm
+        from firearm_target
+        order by type, target_name
     '''
     query_and_display_stmt(db_session.bind, q)
 
@@ -430,6 +462,12 @@ if __name__ == '__main__':
             display_firearm_models(postgres_session)
         elif function_name == 'display_firearm_sights':
             display_firearm_sights(postgres_session)
+        elif function_name == 'display_firearm_ranges':
+            display_firearm_ranges(postgres_session)
+        elif function_name == 'display_firearm_ammunition':
+            display_firearm_ammunition(postgres_session)
+        elif function_name == 'display_firearm_targets':
+            display_firearm_targets(postgres_session)
         else:
             raise NotImplementedError(f'{function_name} not implemented')
     else:
