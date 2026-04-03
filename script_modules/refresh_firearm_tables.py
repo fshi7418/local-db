@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from sqlalchemy import null
+from sqlalchemy import null, text
 
 from models import postgres_session
 # Import the necessary models
@@ -105,3 +105,13 @@ for _, row in trap_round.iterrows():
 for _, row in trap_shot.iterrows():
     postgres_session.add(TrapShot(**{k: handle_null(v) for k, v in row.to_dict().items()}))
 postgres_session.commit()
+
+# Refresh auto-incrementing sequences to max id in each table
+print("Refreshing sequences...")
+for table in tables_to_clear:
+    table_name = table.__tablename__
+    postgres_session.execute(text(
+        f"SELECT setval(pg_get_serial_sequence('{table_name}', 'id'), COALESCE(MAX(id), 1)) FROM {table_name}"
+    ))
+postgres_session.commit()
+print("Sequences refreshed.")
