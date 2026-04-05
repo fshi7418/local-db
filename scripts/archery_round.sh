@@ -31,16 +31,27 @@ function is_valid_float() {
 }
 
 # Ask for today's date in yyyymmdd format
+todays_actual_date=$(date +%Y%m%d)
 while true; do
-    read -rp "Please enter round date (yyyymmdd): " todays_date
-    if is_valid_date "$todays_date"; then
+    read -rp "Did the round occur today ($todays_actual_date) (y/n)? " is_today
+    if [ "$is_today" == "y" ]; then
+        todays_date=$todays_actual_date
+        echo "Using today's date: $todays_date"
         break
+    elif [ "$is_today" == "n" ]; then
+        while true; do
+            read -rp "Please enter round date (yyyymmdd): " todays_date
+            if is_valid_date "$todays_date"; then
+                echo "You entered: $todays_date"
+                break 2
+            else
+                echo "Invalid date format. Please try again."
+            fi
+        done
     else
-        echo "Invalid date format. Please try again."
+        echo "Please enter 'y' or 'n'."
     fi
 done
-
-echo "You entered: $todays_date"
 
 # Ask the user for an integer that represents a number in the archery_range.id column
 python3 utilities.py function display_archery_ranges
