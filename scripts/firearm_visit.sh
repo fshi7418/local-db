@@ -114,12 +114,12 @@ print(a.firearm_cartridge_id if a and a.firearm_cartridge_id else '')
             fi
         fi
         while true; do
-            read -p "Style (olympic/ata): " trap_style_input
+            read -p "Discipline (olympic/ata): " trap_style_input
             if [ "$trap_style_input" = "olympic" ]; then
                 trap_style="Olympic"
                 break
             elif [ "$trap_style_input" = "ata" ]; then
-                trap_style="North American"
+                trap_style="American"
                 break
             else
                 echo "Invalid style. Please enter 'olympic' or 'ata'."
@@ -147,7 +147,7 @@ print(a.firearm_cartridge_id if a and a.firearm_cartridge_id else '')
             done
             trap_shots_json+="]"
         fi
-        trap_round_json="{\"distance_yard\":\"$trap_distance_yard\",\"distance_m\":\"$trap_distance_m\",\"style\":\"$trap_style\",\"num_break\":\"$trap_num_break\",\"starting_station\":\"$trap_starting_station\",\"shotgun_choke_id\":\"$trap_shotgun_choke_id\",\"trap_shots\":$trap_shots_json}"
+        trap_round_json="{\"distance_yard\":\"$trap_distance_yard\",\"distance_m\":\"$trap_distance_m\",\"discipline\":\"$trap_style\",\"num_break\":\"$trap_num_break\",\"starting_station\":\"$trap_starting_station\",\"shotgun_choke_id\":\"$trap_shotgun_choke_id\",\"trap_shots\":$trap_shots_json}"
     fi
 
     # Build JSON for this end

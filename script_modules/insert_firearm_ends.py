@@ -49,7 +49,7 @@ def insert_firearm_ends(visit_id_, ends_json_str):
                     firearm_end_id=end_obj.id,
                     distance_yard=float_or_none(trap_data.get('distance_yard')),
                     distance_m=float_or_none(trap_data.get('distance_m')),
-                    style=str_or_none(trap_data.get('style')),
+                    discipline=str_or_none(trap_data.get('discipline')),
                     num_break=int_or_none(trap_data.get('num_break')),
                     starting_station=int_or_none(trap_data.get('starting_station')),
                     shotgun_choke_id=int_or_none(trap_data.get('shotgun_choke_id')),
