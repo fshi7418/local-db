@@ -245,6 +245,14 @@ class ShotgunChoke(Base):
     datetime_entered = Column(TIMESTAMP(timezone=True), default=func.now())
 
 
+class TrapTargetPresentation(Base):
+    __tablename__ = 'trap_target_presentation'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    target_presentation = Column(String)
+    num_targets = Column(Integer)
+    doubles_type = Column(String)
+
+
 class TrapRound(Base):
     __tablename__ = 'trap_round'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -259,6 +267,10 @@ class TrapRound(Base):
     starting_station = Column(SmallInteger)
     shotgun_choke_id = Column(
         Integer, ForeignKey('shotgun_choke.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True,
+        index=True
+    )
+    trap_target_presentation_id = Column(
+        Integer, ForeignKey('trap_target_presentation.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True,
         index=True
     )
 
