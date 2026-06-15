@@ -295,7 +295,11 @@ class SkeetRound(Base):
     )
     discipline = Column(String)
     num_break = Column(SmallInteger)
-    shotgun_choke_id = Column(
+    shotgun_choke_id1 = Column(
+        Integer, ForeignKey('shotgun_choke.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True,
+        index=True
+    )
+    shotgun_choke_id2 = Column(
         Integer, ForeignKey('shotgun_choke.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True,
         index=True
     )
