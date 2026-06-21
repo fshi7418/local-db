@@ -303,6 +303,7 @@ class SkeetRound(Base):
         Integer, ForeignKey('shotgun_choke.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True,
         index=True
     )
+    low_gun_start = Column(Boolean, nullable=True)
 
 
 class SkeetShot(Base):
