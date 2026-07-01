@@ -286,6 +286,37 @@ class TrapShot(Base):
     num_break = Column(SmallInteger, nullable=False)
 
 
+class DoubleTrapRound(Base):
+    __tablename__ = 'double_trap_round'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    firearm_end_id = Column(
+        Integer, ForeignKey('firearm_end.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False,
+        index=True
+    )
+    distance_yard = Column(Float)
+    distance_m = Column(Float)
+    discipline = Column(String)
+    num_break = Column(SmallInteger)
+    starting_station = Column(SmallInteger)
+    shotgun_choke_id1 = Column(
+        Integer, ForeignKey('shotgun_choke.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True
+    )
+    shotgun_choke_id2 = Column(
+        Integer, ForeignKey('shotgun_choke.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True
+    )
+
+
+class DoubleTrapShot(Base):
+    __tablename__ = 'double_trap_shot'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    double_trap_round_id = Column(
+        Integer, ForeignKey('double_trap_round.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False,
+        index=True
+    )
+    station = Column(Integer, nullable=False)
+    num_break = Column(SmallInteger, nullable=False)
+
+
 class SkeetRound(Base):
     __tablename__ = 'skeet_round'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -315,5 +346,4 @@ class SkeetShot(Base):
     )
     station = Column(SmallInteger, nullable=False)
     is_doubles = Column(Boolean, nullable=False)
-    bird = Column(String)
     num_break = Column(SmallInteger)
