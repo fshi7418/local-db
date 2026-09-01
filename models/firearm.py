@@ -214,6 +214,7 @@ class FirearmEnd(Base):
     supporting_hands = Column(SmallInteger)
     firearm_sight_id = Column(Integer, ForeignKey('firearm_sight.id'), nullable=True)
     stance = Column(String(30))
+    remarks = Column(String)
 
     firearm_visit = relationship(FirearmVisit, foreign_keys=firearm_visit_id, back_populates='firearm_ends', cascade='all')
     firearm_shots = relationship('FirearmShot', back_populates='firearm_end', cascade='all, delete-orphan', lazy='select')
@@ -265,6 +266,7 @@ class TrapRound(Base):
         Integer, ForeignKey('shotgun_choke.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True,
         index=True
     )
+    remarks = Column(String)
 
 
 class TrapShot(Base):
@@ -296,6 +298,7 @@ class DoubleTrapRound(Base):
     shotgun_choke_id2 = Column(
         Integer, ForeignKey('shotgun_choke.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True
     )
+    remarks = Column(String)
 
 
 class DoubleTrapShot(Base):
@@ -327,6 +330,7 @@ class SkeetRound(Base):
         index=True
     )
     low_gun_start = Column(Boolean, nullable=True)
+    remarks = Column(String)
 
 
 class SkeetShot(Base):
