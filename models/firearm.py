@@ -23,6 +23,7 @@ class FirearmTrade(Base):
 class FirearmManufacturer(Base):
     __tablename__ = 'firearm_manufacturer'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    short_name = Column(String, nullable=True)
     name = Column(String, nullable=False)
     country_iso = Column(String(2))
     address_street = Column(String)
@@ -42,6 +43,7 @@ class FirearmModel(Base):
     firearm_manufacturer_id = Column(
         Integer, ForeignKey('firearm_manufacturer.id'), nullable=False
     )
+    short_name = Column(String, nullable=True)
     name = Column(String, nullable=False)
     firearm_action_id = Column(
         Integer, ForeignKey('firearm_action.id'), nullable=False
@@ -101,6 +103,7 @@ class FirearmDealer(Base):
 class FirearmCartridge(Base):
     __tablename__ = 'firearm_cartridge'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    short_name = Column(String, nullable=True)
     name = Column(String, nullable=False)
     strike_type = Column(String)
     length_in_case = Column(Float)
@@ -123,6 +126,7 @@ class FirearmAmmunition(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     firearm_cartridge_id = Column(Integer, ForeignKey('firearm_cartridge.id'), nullable=True)
     firearm_manufacturer_id = Column(Integer, ForeignKey('firearm_manufacturer.id'), nullable=True)
+    short_name = Column(String, nullable=True)
     name = Column(String, nullable=False)
     casing = Column(String)
     tip = Column(String)
