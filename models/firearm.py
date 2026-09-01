@@ -340,6 +340,13 @@ class SkeetShot(Base):
         Integer, ForeignKey('skeet_round.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False,
         index=True
     )
+    shot_order = Column(SmallInteger, nullable=False)
+    # which target of the discipline's standard round this shot was at; an
+    # American option shot repeats the number of the target it makes up
+    target_number = Column(SmallInteger, nullable=False)
     station = Column(SmallInteger, nullable=False)
-    is_doubles = Column(Boolean, nullable=False)
-    num_break = Column(SmallInteger)
+    house = Column(String, nullable=False)  # 'high' or 'low'
+    single_double = Column(String, nullable=False)  # 'single' or 'double'
+    pair_order = Column(SmallInteger, nullable=True)
+    is_option = Column(Boolean, nullable=False, default=False)
+    broken = Column(Boolean, nullable=False)
