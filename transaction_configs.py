@@ -18,7 +18,7 @@ class ExpenseSource(Enum):
     CIBCC = 'CIBC Credit(8807)'
     CIBCD = 'CIBC Chequing(9833)'
     CMB = 'CMB(9076)'
-    NEOPC = 'NEO Credit'
+    NEOPC = 'NEO Credit(0698)'
     OTHER = 'Other'
     PCF = 'PC Financial(2800)'
     RBCD = 'RBC Chequing(8545)'
