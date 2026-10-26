@@ -334,6 +334,9 @@ class SkeetRound(Base):
         index=True
     )
     low_gun_start = Column(Boolean, nullable=True)
+    # target order shot, which can differ from the field's discipline (e.g. the
+    # international sequence on an american field)
+    sequence = Column(String)
     remarks = Column(String)
 
 
