@@ -9,20 +9,3 @@ class ExpenseCat(Enum):
     ACADEMICS = 'Textbook & Academics'  # category
     CASH = 'Cash'  # category
 
-
-class ExpenseSource(Enum):
-    AMEX = 'AMEX(1006)'
-    BMOC = 'BMO Credit(6645)'
-    BMOPC = 'BMO Porter Credit(0063)'
-    BMOD = 'BMO Chequing(7334)'
-    CIBCC = 'CIBC Credit(8807)'
-    CIBCD = 'CIBC Chequing(9833)'
-    CMB = 'CMB(9076)'
-    NEOPC = 'NEO Credit(0698)'
-    OTHER = 'Other'
-    PCF = 'PC Financial(2800)'
-    RBCD = 'RBC Chequing(8545)'
-    RBCCO = 'RBC Credit(4682)'
-    RBCC = 'RBC Credit(2262)'
-    TDC = 'TD Credit(8988)'
-    TDD = 'TD Chequing(5232)'

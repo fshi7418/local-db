@@ -12,7 +12,6 @@ class ExpenseTransactions(Base):
     amount = Column(Float)
     category = Column(String)
     expense_budget_id = Column(Integer)
-    expense_source = Column(String)
     expense_source_id = Column(
         Integer, ForeignKey('expense_source.id', onupdate='CASCADE', ondelete='RESTRICT'), nullable=True,
         index=True
