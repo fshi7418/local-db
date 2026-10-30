@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Date, Float, String
+from sqlalchemy import Column, Integer, Date, Float, String, ForeignKey
 from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 
@@ -13,8 +13,18 @@ class ExpenseTransactions(Base):
     category = Column(String)
     expense_budget_id = Column(Integer)
     expense_source = Column(String)
+    expense_source_id = Column(
+        Integer, ForeignKey('expense_source.id', onupdate='CASCADE', ondelete='RESTRICT'), nullable=True,
+        index=True
+    )
     expense_comment = Column(String)
     last_updated = Column(TIMESTAMP(timezone=True), default=func.now())
+
+
+class ExpenseSource(Base):
+    __tablename__ = 'expense_source'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    source_name = Column(String, nullable=False, unique=True)
 
 
 class ExpenseBudget(Base):
